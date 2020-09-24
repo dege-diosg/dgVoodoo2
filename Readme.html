@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+p
+{
+    max-width:1000px; 
+    word-wrap:break-word;
+    text-align:justify
+}
+
+table, th, td {
+    width:1000px; 
+    border: 1px solid #C0C0C0;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+
+a:link {
+  color: green;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color: pink;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+
+li {
+    max-width:1000px;
+    text-align:justify
+}
+
+
+.code    {
+    width:1000px; 
+    background-color: #653F00;
+}
+
+</style>
+
+<head>
+
+	<meta name="google-site-verification" content="4JMbYsGNl4-uZV9FEQvq56CQDND5NHcIPtMblynaH-Q" />
+
+	<title>dgVoodoo2 Main Readme</title>
+
+</head>
+
+<body bgcolor="#552F00">
+<font color = "#A0A060">
+
+<h2 align="left">
+===============================================================================<br>
+<font color = "#FFFFFF">dgVoodoo 2.7</font>:  Glide and DirectX API libraries implemented on D3D11/12<br>
+Released:       <font color = "#FFFFFF">September 14, 2020</font><br>
+Author:         <font color = "#FFFFFF">Dege</font><br>
+<br>
+Copyright (c) 2013-2020<br>
+===============================================================================<br>
+</h2>
+
+<p>
+<h2><font color = "#FFFFFF"><u>
+Table of contents
+</u></font></h2>
+<h3><b>
+1. Redistribution rights<br>
+2. Features<br>
+3. Requirements<br>
+4. Test results<br>
+5. Usage<br>
+6. Configuring<br>
+7. Resolution overriding<br>
+8. General options<br>
+9. General additional options<br>
+10. Direct3D 12<br>
+11. General tips and known issues<br>
+12. Special release version with debug layer<br>
+13. Change log<br>
+</b></h3>
+===============================================================================<br>
+
+</p>
+
+<br>
+<h2><font color = "#FFFFFF"><u>
+1. Redistribution rights
+</u></font></h2>
+<p>
+Files of dgVoodoo can be redistributed freely as far as they are kept together,
+remain unmodified and unrenamed. Namely, only the full package can be
+redistributed in the form as it is!
+</p>
+<p>
+If you would like to utilize them in publicly available custom solutions or
+packages, like game patches or anything else, then <font color = "#FFFFFF">PLEASE</font> ask me for permission,
+furthermore mention its original source in your package along with the following
+download link:
+</p>
+<a href="http://dege.fw.hu/">http://dege.fw.hu/</a>
+<p>
+Official dgVoodoo forum where you can contact me and the dgVoodoo community is at:
+</p>
+<a href="http://www.vogons.org/viewforum.php?f=59/">http://www.vogons.org/viewforum.php?f=59/</a><br>
+<br>
+Tip: See topic <font color = "#FFFFFF">"WIP versions"</font> for checking out new dgVoodoo versions that are not officially released.
+<br><br>
+<font color = "#FFFFFF">
+<table bgcolor = "#653F00">
+<tr><td>---------------------- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ----------------------</td></tr>
+<tr><td>
+<p>
+Very BIG THANKS must go to the community of Vogons for helping me a lot in
+testing during the development! Thanks Guys, I couldn't have proceed so far
+without such a great quality assurance!
+</p>
+</tr></td>
+<tr><td>
+<p>
+And I append a new sentence here to emphasize it again, especially for testing
+my D3D8/9 implementation and supplying me with ideas, tips and various informations
+on several games!!!
+</p>
+</tr></td>
+<tr><td>---------------------- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ----------------------</td></tr>
+</table>
+</font>
+
+<br>
+<h2><font color = "#FFFFFF"><u>
+2. Features
+</u></font></h2>
+<p>
+dgVoodoo 2 is a set of old graphics API's implemented for Windows Vista/7/8/10.
+<br><br>
+They are implemented on Direct3D 11/12 and they can use different device types as wrapping output:
+<ul>
+    <li>Hardware rendering at GPU feature level 12.0 (recommended but currently has some issues)</li>
+    <li>Hardware rendering at GPU feature level 11.0 (recommended)</li>
+    <li>Hardware rendering at GPU feature level 10.1 (has a minor limitation for DX8/9)</li>
+    <li>Hardware rendering at GPU feature level 10.0 (there are some limitations)</li>
+    <li>Software rendering through Microsoft WARP renderer</li>
+</ul>
+
+The following graphics API libraries are implemented:
+<ul>
+    <li>Glide 2.11, Glide 2.45, Glide 3.1 and Glide 3.1 Napalm</li>
+    <li>DirectX 1-7 (all versions of DirectDraw and Direct3D up to version 7)</li>
+    <li>Direct3D 8.1</li>
+    <li>Direct3D 9</li>
+</ul>
+<p>
+For both Glide and DirectX, dgVoodoo pushes as many emulation work to the GPU as
+possbile. Thus, the entire internal 3Dfx GPU logic is mapped to pixel shaders
+for Glide emulation, and all the fixed function vertex & pixel processing
+pipeline is implemented by shaders for DirectX emulation (when possible).<br>
+Glide libraries basically can work in two ways:
+<ul>
+    <li>Using their precompiled shaders - it is the less efficient mode (legacy)</li>
+    <li>Using an external HLSL shader compiler - this is the most efficient and recommended mode and referred as 'dynamic shader compiling'</li>
+</ul>
+</p>
+<p>
+If dynamic shader compiling is available (see Usage) then dgVoodoo can work
+with specialized shaders requiring much less GPU power, providing much better
+performance, especially on weaker video cards.<br>
+</p>
+
+<br>
+<h2><font color = "#FFFFFF"><u>
+3. Requirements
+</u></font></h2>
+<ul>
+<li>Operating system:       Windows Vista/7/8/10</li>
+<li>Hardware:               GPU supporting DirectX feature level 10.0.</li>
+</ul>
+Optional and recommended:
+<ul>
+    <li>GPU supporting DirectX <font color = "#FFFFFF">feature level 11.0 or higher</font></li>
+    <li>HLSL shader compiler <font color = "#FFFFFF">(D3DCompiler_43 or D3DCompiler_47)</font><br>(note that D3DCompiler_47 is part of Windows 10)</li>
+</ul>
+
+<br>
+<h2><font color = "#FFFFFF"><u>
+4. Test results
+</u></font></h2>
+<p>
+We can examine this in two aspects:
+</p>
+<ul>
+    <li><font color = "#FFFFFF"><b>Used hardware and performance</b></font><br>
+        I've tested and run different versions of dgVoodoo2 on the following GPU's:
+        <font color = "#FFFFFF"><ul>
+            <li>Intel HD 2000 (feature level 10.0 only)</li>
+            <li>GeForce 8600 GT (feature level 10.0 only)</li>
+            <li>Intel HD 4000</li>
+            <li>Geforce GT 610</li>
+            <li>AMD HD 6450</li>
+            <li>Intel HD Graphics 530</li>
+            <li>GeForce GTS 450</li>
+            <li>AMD HD 7850</li>
+            <li>GeForce GTX Ti560 (RIP)</li>
+            <li>AMD R7 360</li>
+            <li>GeForce GTX 1060</li>
+        </ul></font>
+        If dynamic shader compiling is utilized then dgVoodoo generally performs quite well on all hardware except
+        integrated chips (like Intel HD 2000 and 4000).<br>
+        Using only precompiled shaders requires a mid-class video card at least, and the low-end ones (intended for office-like usage) like
+        Geforce GT 610 and AMD HD 6450 are not recommended.
+    </li>
+
+    <br><li><font color = "#FFFFFF"><b>Accuracy of the emulation, individual games and applications</b></font><br>
+        Of course it's not perfect but I think I got very nice results in general. I maintain expanding lists for games and demos, for DirectX emulation:<br>
+        <a href="http://dege.fw.hu/Gallery/DXGamesGallery.html">Games</a><br>
+        <a href="http://dege.fw.hu/Gallery/DXDemosGallery.html">Demos</a><br>
+        </li>
+</ul>
+
+<br>
+<h2><font color = "#FFFFFF"><u>
+5. Usage
+</u></font></h2>
+<p>
+There is no installer for dgVoodoo beacuse you can copy its dlls anywhere
+you want (to use). If u like it and want to use as the only global Glide
+wrapper on your machine then copy Glide dlls to the system folder. Glide dlls
+are available in both 32bit (x86) and 64bit (x64) versions. x64 version is for 64 bit <font color = "#FFFFFF">QEmu</font> (and maybe
+64 bit <font color = "#FFFFFF">DosBox</font>) builds.
+<font color = "#FFFFFF"><b>For native usage you always need the 32bit (x86) version dlls.</b></font>
+<br>
+For DirectX emulation only a local installation is possible since the
+DirectX dlls CANNOT be copied to the system folder (see DirectX readme).
+Also, D3D9 has both 32 and 64 bit versions. Always use the proper one, depending on the application type (not the OS type).
+</p>
+<p>
+A Glide wrapped application can start up either in windowed or full screen
+mode (it is controlled by the <font color = "#FFFFFF">Control Panel</font>, see later). Also, you can switch between
+them during the gameplay by Alt-Enter. See 'Known issues' for more.
+</p>
+<p>
+The same is true for wrapped DirectX applications, but it is a more
+complicated case, see DirectX readme.
+</p>
+<p>
+Glide and DirectX dlls can co-work inside a process so the same versions
+of them have to be used within a folder. If one of them detects the other
+with different version then it refuses to initialize and work.
+Co-work is useful for applications that use DirectDraw for some initial
+in-game menu and Glide for 3D rendering.
+</p>
+<p>
+If you use dgVoodoo on Windows 10 then dynamic shader compiling is automatically
+available because D3DCompiler_47 is part of the operating system.<br>
+For preceding Windows versions (Vista, 7, 8) you need to download it manually and
+then, you can copy this dll into each game folder next to the wrapper dlls but the
+best practice is to copy it into
+</p>
+
+<ul>
+<li><font color = "#FFFFFF">Windows\System32    folder for 32 bit operating systems</font></li>
+<li><font color = "#FFFFFF">Windows\SysWOW64    folder for 64 bit operating systems</font></li>
+</ul>
+
+<p>
+if it is not already there by the result of the installation of some
+other software.<br>
+Note that dgVoodoo supports both D3DCompiler_43 and D3DCompiler_47.
+_43 is supported only because of compatibility with users having it
+downloaded and copied into their system folder previously.
+</p>
+<p>
+Utilizing dynamic shader compiling is only recommended for Glide libraries (unlike with previous dgVoodoo versions).
+DirectX implementations have their own internal DXBC generator which proved to be good enough
+so support for the external compiler has been removed.
+(I would like to completely ditch the external compiler once the internal code generator is implemented for Glide as well.)
+</p>
+
+<br>
+<h2><font color = "#FFFFFF"><u>
+6. Configuring
+</u></font></h2>
+<p>
+As different options might wanted to be used for particular applications,
+I kept the concept of local/global configurations (might be familiar from old dgVoodoo).
+Current configuration is stored in a file named 'dgVoodoo.conf'. Its format can either be
+binary or a textual INI-file for manual editing.
+</p>
+<p>
+When the Glide or DirectX wrapped application starts, dgVoodoo tries to read
+config data. The search paths and the order for the config file are the following:
+<ul>
+    <li>Folder of the wrapper DLL</li>
+    <li>Folder of the application (EXE)</li>
+    <li>User application data folder</li>
+</ul>
+If the config file can be found in none of them then the default config is used.
+</p>
+<p>
+For modifying config files, you can either use <font color = "#FFFFFF">dgVoodoo Control Panel (dgVoodooCpl)</font> or edit it manually with a text editor.
+dgVoodooCPL provides convenient GUI interface for all options but only the most important sections are available by default. You have to enable the advanced
+options through the context menu. This is because of emphasizing the sufficiency of the default sections for the everyday usage and leaving the advanced
+sections for practiced users knowing what they are doing.<br>
+In dgVoodooCpl you can choose a folder where you can load (from) and save the current
+configuration. Once you chose a folder, it remains in the list permanently.
+If the CPL application finds a valid config file in its own folder (where the app itself
+is located) then it automatically places the folder into the list and selects the folder.
+Otherwise the user's application data folder is selected, by default.
+</p>
+<p>
+Note that
+    <ul>
+        <li>CPL always writes INI format config file (unlike previous versions) - and you can edit it manually, passing over the CPL</li>
+        <li>CPL doesn't expose all the sections of the configuration by default only the most important ones - you have to enable additional ones through the context menu</li>
+    </ul>
+</p>
+<p>
+If an application tolerates losing focus without closing/minimizing itself,
+you can configure it dynamically: when the CPL starts up it builds
+a list of detected running Glide/DirectX wrapped applications and insert it
+into the folder selector combobox. When you select such a running instance
+then the current state of the application is read as config and most of the
+options can also be changed. So, you can set resolution, msaa, brightness,
+etc on the spot without restarting the application (configurable items depend
+on emulation type). When an option changes, it takes effect at once. If the
+dialog gets cancelled or an other config folder/instance is selected, all the
+changes gets cancelled as well.
+</p>
+<p>
+You can always use the <font color = "#FFFFFF">'Apply' button</font> to save the current config to the
+selected folder or running application without exiting the CPL application.
+
+Important to note:
+</p>
+
+<ul>
+<li><p>
+   If the wrapped app and the CPL runs on different privilege levels
+   (admin/nonadmin) then the app won't appear in the instance list or they
+   cannot communicate to each other. Sorry for the inconvenience.</p>
+</li>
+<li><p>
+   Switching resolution or MSAA can only be performed perfectly if the
+   application re-renders everything on each frame. If it uses or keeps
+   previously (once-)rendered things like cockpits or similars then they will
+   be missing as will not get re-rendered. (Glide only)</p>
+</li>
+</ul>
+
+<p>A folder inserted formerly into the list can be removed. Also, list of the
+running instances can be refreshed.</p>
+
+<br>
+<h2><font color = "#FFFFFF"><u>
+7. Resolution and refresh rate overriding
+</u></font></h2>
+
+<p>
+You can override the application resolution and refresh rate both for
+Glide and DirectX rendering.<br>
+There are three types of resolution overriding, and, the 'Resolution'
+comboboxes contain two types of elements in the enumerated list:
+</p>
+<ul>
+<li>
+  <font color = "#FFFFFF">Static resolutions</font>
+  <p>
+  Those are enumerated by your videocard for the selected display output.
+  Select any of them, and the wrapper will force that one (along with the selected refresh rate),
+  no matter what resolution the application wants to set.<br>
+  Resolution 'Unforced' means always using the current application resolution, so there is no overriding at all.
+  </p>
+</li>
+<br>
+<li>
+  <font color = "#FFFFFF">Dynamic resolutions</font>
+  <p>
+  First, a little explanation on what the practical problems are with static
+  resolutions (especially for DirectX applications).
+  </p>
+<ul>
+<li><p>
+    The application may use multiple resolutions for different parts like movies,
+    menus and ingame. The statically chosen resolution may not have the same
+    aspect ratio as those of them. For app-resolutions with different aspect
+    ratios like 4:3 vs 16:9 it's a problem because one of them will be displayed
+    hugely distorted.</p>
+
+<li><p>
+    Even if the app uses only one resolution, and you can select or type another
+    one with the same aspect ratio, then selecting the proper resolution is still
+    not an easy task:<br>
+    a) you don't necessarily know what resolution the app uses<br>
+    b) you don't necessarily know what the max resolution your display is capable
+       of<br>
+    c) even if you know both of them, you may have to calculate manually the
+       desired resolution.</p>
+</li>
+</ul>
+<p>
+  (My own problem was the following: I sat down in front of a new computer with
+   a 4K monitor and wanted to try out some stuffs through dgVoodoo. I faced the
+   fact that I didn't know the exact monitor resolution, I also didn't know what
+   res the stuffs to try were using. I just wanted the maximum available
+   resolution to be forced that keeps the aspect ratio.)
+</p>
+<p>
+  Dynamic resolution is the synonim of "let the wrapper choose the current
+  resolution for you". The maximum, and also the base used for calculating the
+  current resolution, is your desktop resolution. The base rule is that the
+  wrapper always calculates the maximum available resolution for the given
+  scaling mode, but
+</p>
+<ul>
+    <li><p>you can restrict the base maximum to <font color = "#FFFFFF">FullHD (1920x1080) or QHD (2560x1440)</font>
+        for weaker GPUs (like low-end cards or maybe, integrated chips) with large-res display outputs, and</p></li>
+    <li><p>you can restrict the scale factor to integer numbers.<br>
+        <font color = "#FFFFFF">(ISF - integer scale factor)</font></p></li>
+</ul>
+
+  So, dynamic resolutions are the following:
+<ul>
+    <li><font color = "#FFFFFF">2x, 3x, ...:</font>    Integer multiples of application resolutions; doubled, tripled, etc.</li>
+    <li><font color = "#FFFFFF">Max:</font>           Maximum resolution available</li>
+    <li><font color = "#FFFFFF">Max ISF:</font>       Maximum resolution with integer scale factor available</li>
+    <li><font color = "#FFFFFF">Max FHD:</font>       Maximum resolution available
+                      (but restricted to 1920x1080)</li>
+  <li><font color = "#FFFFFF">Max FHD ISF:</font>     Maximum resolution with integer scale factor available
+                      (but restricted to 1920x1080)</li>
+  <li><font color = "#FFFFFF">Max QHD:</font>         Maximum resolution available
+                      (but restricted to 2560x1440)</li>
+  <li><font color = "#FFFFFF">Max QHD ISF:</font>     Maximum resolution with integer scale factor available
+                      (but restricted to 2560x1440)</li>
+</ul>
+<p>
+When working with a dynamic resolution, the concrete resolution is unknown (calculated at runtime) hence no refresh rates are enumerated along with them,
+even if enumerating refresh rates is enabled.
+You can still force one (see Custom resolutions below).<br>
+See the API specific readmes to understand the logic of selecting a real refresh rate value for unforced cases.
+</p>
+
+<li>
+  <font color = "#FFFFFF">Custom resolutions</font>
+  <p>
+  A custom resolution is either a static one that is not in the enumerated list, or one that is partially overridden.
+  Defining a custom resolution through the CPL is about typing the string -manually into the combo box- describing the resolution/refresh rate pair.<br>
+  Resolution and refresh rate can be overridden independently on each other. Here are some examples (don't type quotation marks):
+  <ul>
+    <li>"128x128, 60" - means static resolution 128x128 at forced rate of 60Hz</li>
+    <li>"128x128, 0" or just "128x128" - means static resolution 128x128 without overridden refresh rate</li>
+    <li>"0x0, 75" or "unforced, 75" - means unforced (static) resolution with forced 75Hz</li>
+    <li>"max isf, 83" - means Max ISF dynamic resolution with forced 83Hz</li>
+  </ul><br>
+  If your resolution and refresh rate is in the list then it is better to select it from there than typing it manually.
+  It is because e.g. 60Hz is not exactly 60Hz in practice but 60.01Hz or 59.95Hz or so, depending on your display hardware.
+  dgVoodoo always handles the refresh rates in their exact rational form but it cannot do that with manually typed ones.<br>
+  When displaying a refresh rate in the combo box, dgVoodoo truncates the value. So, for example, 59.95Hz will appear as 59Hz
+  in the list, while the display manufacturer probably claims that your display supports 60Hz. Don't let it mislead you. It is all
+  about truncating or rounding the values.
+  </p>
+</li>
+
+</ul>
+
+If you are terribly interested in how the current dynamic resolution is calculated then
+a little technical part comes here. Otherwise you can skip this section.
+<br><br>
+<table bgcolor = "#653F00">
+<tr><td>D:</td><td>desktop resolution</td></tr>
+<tr><td>F:</td><td>FullHD resolution (1920x1080)</td></tr>
+<tr><td>Q:</td><td>QHD resolution (2560x1440)</td></tr>
+<tr><td>A:</td><td>application resolution</td></tr>
+<tr><td>AS (x, y):</td><td>stretched from x to y, with aspect ratio</td></tr>
+<tr><td>IAS (x, y):</td><td>stretched from x to y, with aspect ratio, integer scale factor</td></tr>
+</table>
+
+<br>
+
+<table border = 1 bgcolor = "#653F00">
+<tr>
+    <th></th>
+    <th>Unspecified</th>
+    <th>Centered</th>
+    <th>Stretched</th>
+    <th>Stretch with AR</th>
+</tr>
+<tr>
+    <th>Max</th>
+    <td>AS (A, D)</td>
+    <td>AS (A, D)</td>
+    <td>D</td>
+    <td>AS (A, D)</td>
+</tr>
+<tr>
+    <th>Max ISF</th>
+    <td>IAS (A, D)</td>
+    <td>IAS (A, D)</td>
+    <td>* remarks</td>
+    <td>IAS (A, D)</td>
+</tr>
+<tr>
+    <th>Max FHD</th>
+    <td>AS (A, min (D,F))</td>
+    <td>AS (A, min (D,F))</td>
+    <td>min (D,F)</td>
+    <td>AS (A, min (D,F))</td>
+</tr>
+<tr>
+    <th>Max FHD ISF</th>
+    <td>IAS (A, min (D,F))</td>
+    <td>IAS (A, min (D,F))</td>
+    <td>* remarks</td>
+    <td>IAS (A, min (D,F))</td>
+</tr>
+<tr>
+    <th>Max QHD</th>
+    <td>AS (A, min (D,Q))</td>
+    <td>AS (A, min (D,Q))</td>
+    <td>min (Q,F)</td>
+    <td>AS (A, min (D,Q))</td>
+</tr>
+<tr>
+    <th>Max QHD ISF </th>
+    <td>IAS (A, min (D,Q))</td>
+    <td>IAS (A, min (D,Q))</td>
+    <td>* remarks</td>
+    <td>IAS (A, min (D,Q))</td>
+</tr>
+</table>
+<br>
+Remarks:
+<ul>
+    <li><p>
+        Resolution is calculated in the same way for scaling mode 'Unspecified', 'Centered' and 'Stretch with AR'.<br>
+    </p></li>
+    <li><p>
+        Stretched scaling mode with ISF tries to stretch to min([D|F|Q]) and the
+        scale factor for both direction is the integer part of the minimum of<br>
+        <font color = "#FFFFFF">min ([Dx|Fx|Qx])/Ax</font> and <font color = "#FFFFFF">min ([Dy|Fy|Qy])/Ay</font>
+        (ratios of X/Y directions).
+    </p></li>
+</ul>
+<p>
+I'd like to say some words about what happens on multimonitor systems with
+dynamic resolution forcing:
+</p>
+<ul>
+    <li><p>
+        Glide: when switching from windowed mode to fullscreen then a new forced
+               resolution is calculated by the wrapper, based on the native res of the
+               display on which the full screen output will appear.
+    </p></li>
+    <li><p>
+        DX:    It's not so flexible at all, unfortunately. Since DX impl doesn't
+               support changing resolution during its working, it cannot do the same
+               as Glide when switching into fullscreen. Also, since display outputs
+               are enumerated to the application, resolution calculation can rely only
+               on the native res of the output on which DX is initialized (so changing
+               the output of a running DX emulated app from the CPL application is without avail,
+               won't affect the next resolution calculation).
+     </p></li>
+</ul>
+
+<br>
+<h2><font color = "#FFFFFF"><u>
+8. General options
+</u></font></h2>
+<br>
+Options on the General tab affects all wrapped APIs, that is, currently
+Glide and DirectX.
+<ul>
+    <li><font color = "#FFFFFF"><b>Output API</b></font><br>
+        Six output API's are available:<br>
+        <ul>
+            <li><p><font color = "#FFFFFF">Direct3D12 feature level 12.0</font></p></li>
+            <li><p><font color = "#FFFFFF">Direct3D12 feature level 11.0</font></p></li>
+            <li><p><font color = "#FFFFFF">Direct3D11 feature level 11.0</font></p></li>
+            <li><p><font color = "#FFFFFF">Direct3D11 feature level 10.1</font></p></li>
+            <li><p><font color = "#FFFFFF">Direct3D11 feature level 10.0</font></p></li>
+            <li><p><font color = "#FFFFFF">Direct3D11 Microsoft WARP renderer</font><br><br>
+                   D3D11 with FL10.1 has a little limitation and affects only D3D8/9:
+                   <ul>
+                        <li>Max texture size is 8K x 8K</li>
+                   </ul>
+                   <br>
+                   D3D11 with FL10.0 is designed to be used with late
+                   DX 10.0 hardware and has some limitations:
+                   <ul>
+                       <li>No mipmapping in Glide rendering</li>
+                       <li>Limited operations on Z-buffers</li>
+                       <ul>
+                          <li>Buffers <font color="#FFFFFF">with forced MSAA can only be rendering targets;</font></b> they cannot be used as
+                              <ul>
+                                  <li>depth textures</li>
+                                  <li>source of copy operations (Blit in DDraw)</li>
+                                  <li>locked for CPU-access (Lock in DDraw/ LockRect in D3D8)</li>
+                                </ul>
+                          </li>
+                          <li>Faces of 3D-rendered cube-depth buffers cannot be
+                              <ul>
+                                  <li>source of copy operations (Blit in DDraw)</li>
+                                  <li>locked for CPU-access (Lock in DDraw/ LockRect in D3D8)</li>
+                              </ul>
+                          </li>
+                      </ul>
+                   </ul>
+                   <p>
+                   WARP is a software renderer and can be used as a reference driver.
+                   </p>
+            </p></li>
+        </ul>
+    </li>
+
+    <li><p>
+        <font color = "#FFFFFF"><b>Video card (adapter)</b></font><br>In case you have more than one, then
+        <ul>
+            <li>
+                Glide: 
+                <font color = "#FFFFFF">which one to use</font> for rendering. Option 'All of them' is equivalent to selecting the first video card in the list.</li>
+            <li>DirectX: it is a multi-device capable API so you can
+                choose <font color = "#FFFFFF">which adapter(s) are to be enabled</font> for the emulation.</li>
+        </ul>
+    </p></li>
+
+
+    <li><p>
+        <font color = "#FFFFFF"><b>Monitor (output)</b></font><br>
+                        If you have multiple monitors then you can choose
+                        which one(s) (connected to the selected adapter):
+                        <ul>
+                            <li>
+                                <font color = "#FFFFFF">Glide: which monitor is used for fullscreen output.</font> When 'Default'
+                                is selected then switching from windowed to fullscreen
+                                during playing a game selects the monitor containing
+                                the largest part of the game window.<br>
+                                It can be overridden dynamically on a running Glide wrapped application and it also affects
+                                dynamic resolution calculating (see resolution overriding).
+                            </li>
+                            <li>
+                                <font color = "#FFFFFF">DirectX: which monitor(s) to enable to appear as DX devices to the application.</font>
+                                'Default' enables all the monitors connected to the selected adapter. When the game or
+                                application goes into fullscreen then it always happens on the monitor (device) that the
+                                game/application selected for use. In case of a multidevice environment games and applications
+                                often (and silently) selects the first available device which generally corresponds to the primary monitor,
+                                but advanced apps allows the user to configure it through the app itself.
+                                <br>
+                                It can be overridden dynamically on a running DirectX-wrapped application however it only
+                                affects the output, it is all about pure visuality. It doesn't affects dynamic resolution
+                                calculating (see resolution overriding) and also, the application shall continue to see the
+                                corresponding device in it original state (keep in mind that it can conflict with the app). 
+                            </li>
+                        </ul>
+    </p></li>
+
+    <li><p><font color = "#FFFFFF"><b>Full Screen / Windowed</b></font><br>
+                        See section "Usage".</p></li>
+    
+    <li><p><font color = "#FFFFFF"><b>Unspecified/Centered/Scaled/Scaled with Aspect Ratio kept, for full screen</b></font><br>
+                        
+                        If the current resolution the wrapped app using does not
+                        match any natural resolution your adapter supports
+                        then the display can be strethed out to fit all the
+                        screen or its size can be left unchanged but centered.
+
+                        <font color = "#FFFFFF">NOTE that if your video card supports overriding the scaling
+                        method of applications, and you'd like to apply a scaling
+                        with aspect ratio then it is recommended to set dgVoodoo's
+                        scaling method to 'Unspecified' + set the scaling mode <b>on your
+                        video card control panel</b> because dgVoodoo's internal scaling
+                        is unfortunately not a sterling one.</font> It implies that you may
+                        experience various problems like wrong mouse cursor or
+                        glitches in rendering in certain applications. Scaling can
+                        only be done well (transparently) on the GPU/display side.
+                        <br>
+                        C64-like output: well, if you are not a former C64 owner and fan, don't even try it,
+                        I'm sure you won't like it at all. As dgVoodoo is my main hobby programming playground
+                        these times I tried some algorhytms as part of it. It's not really a feature,
+                        but the result of some former experimenting and can be funny for some scene demos.
+
+    </p></li>
+
+
+    <li><p><font color = "#FFFFFF"><b>Progressive scanline order</b></font><br>
+                        Default scanline order is interlaced or progressive. It is
+                        up to the output display device which one to choose altough
+                        it chooses progressive when it is possible, I think, so
+                        that when the device is capable of displaying a given
+                        resolution with a given refresh rate with progressive order.
+                        Otherwise it might choose interlaced order with halved
+                        physical refresh rate.
+                        If this option is enabled, you can only see enumerated
+                        resolutions that are displayable with progressive order.
+                        However, if a custom resolution is defined then it may
+                        causes the output device to use lower physical resolution
+                        than the wrapper set.
+    </p></li>
+
+    <li><p><font color = "#FFFFFF"><b>Enumerate refresh rates</b></font><br>
+                        Enables the CPL application to enumerate refresh rates for
+                        each resolution and enables the wrapper to override the
+                        default refresh rate of the application.
+                        <font color = "#FFFFFF">However using other than the app default can cause heavy
+                        animation lagging or glitches!</font>
+    </p></li>
+
+
+    <li><p><font color = "#FFFFFF"><b>Color adjustments</b></font><br>
+                        Brightness, color intensity (saturation) and contrast can be finetuned here.
+                        The defaults are good in general so treat this as a
+                        cool extra. (I'm using it in some cases for making colors
+                        more vital to get a bit cartoon-like effect.)
+    </p></li>
+    <li><p><font color="#FFFFFF"><b>Inherit Color Profile in full screen mode</b></font><br>
+                        When this option is enabled then dgVoodoo won't change the physical
+                        gamma ramp of the screen but instead it solves the color adjustments
+                        just like in windowed mode and so your pre-configured color profile(s)
+                        for the given monitor(s) remain(s) preserved. Color adjustments are
+                        relative to the predefined color profile in that case.
+                        
+    </p></li>
+
+    <li><p><font color = "#FFFFFF"><b>Keep window aspect ratio</b></font><br>
+                        In windowed mode, when sizing the window, you can keep
+                        the aspect ratio of the current resolution.
+    </p></li>
+
+    <li><p><font color = "#FFFFFF"><b>Capture mouse</b></font><br>
+                        It's useful mainly (but not only) for multimonitor systems. If this is enabled then the mouse cursor
+                        is forced into the application window to prevent accidental mis-clicks outside of it.
+    </p></li>
+    
+    <li><p><font color = "#FFFFFF"><b>Center app window</b></font><br>
+                        When a game controlling the mouse input is being run in windowed mode then
+                        it's a pain to move it's window into the screen, so I thought it's a valuable option (was a request too),
+                        but it can conflict with the mouse input or the app itself.
+
+    </p></li>
+</ul>
+
+<br>
+
+<h2><font color="#FFFFFF"><u>
+9. General additional options
+</u></font></h2>
+
+<ul>
+    <li><font color = "#FFFFFF"><b>DesktopResolution</b></font>
+    <p>dgVoodoo takes the current desktop resolution as a base to do its calculations for self-done output scaling and other things like automatic pixel multiplying factor value.
+       There some games however that pre-set the desktop resolution (typically to some low resolution) before dgVoodoo gets in action, spoiling the rendering.
+       You can define your native desktop resolution here for such cases. If defined then this resolution is used for all outputs of the desktop.
+    </p></li>
+    <li><font color = "#FFFFFF"><b>DesktopBitDepth</b></font>
+    <p>You can define what screen bit depth should be reported through dgVoodoo. It can be 8, 16 or 32. Empty definition means the current system desktop bit depth.
+    </p></li>
+    <li><font color = "#FFFFFF"><b>DeframerSize</b></font>
+    <p>When resolution is forced to other than the app default then a black frame is drawn around the output image coming from a wrapped API to remove scaling artifacts -
+       frame thickness can be defined in pixels (max 16, 0 = disable) (default is 1).
+    </p></li>
+    <li><font color = "#FFFFFF"><b>ImageScaleFactor</b></font>
+    <p>Integer factor for scaling the output image coming from a wrapped API (pixel multiplying). This is independent on scaling mode.
+       0 = maximum available factor. Default is 1 (no multiplying). Separate factors can be defined for horizontal and vertical directions.
+    </p></li>
+    <li><font color = "#FFFFFF"><b>DisplayROI</b></font>
+    <p>Display region of interest: you can define a subrectangle in forced resolution space (or application resolution if it is unforced) to be the input of the scaling and
+        image presenting process. It works only for scaling modes where the image processing is done by dgVoodoo itself. Subrectangle can either be
+        <ul>
+        <li>defined as a proportion in form of <b>%d_%d</b>, like 16_9 or 16_10, etc.</li>
+        <li>or defined as a pixel size in form of <b>%d|%d</b>, like 320|200 or 640|400, etc.</li>
+        </ul>
+        <br>
+        Pos subproperty defines the top-left position of the rectangle. It can be 
+        <ul>
+            <li><b>centered</b><font color="#FFFFFF"> (default)</font></li>
+            <li>a pixel position in form of <b>%d|%d</b>, like 100|100</li>
+        </ul>
+    </p></li>
+    <li><font color = "#FFFFFF"><b>Resampling</b></font>
+    <p>When the scaling is done by the wrapper for the given scaling mode, you can choose which type of resampling filter to use.
+        Those are the following, in the order of complexity:
+        <ul>
+            <li>Point sampled: the simplest and fastest but providing pixelated result</li>
+            <li>Bilinear: Smooth but blurred result</li>
+            <li>Lanczos-2: Smooth but more sharper result - it can produce slight halation around sharp edges</li>
+            <li>Bicubic: Smooth but more sharper result</li>
+            <li>Lanczos-2: Smooth and sharpest result - it can produce stronger halation than Lanczos-2</li>
+        </ul>
+    </p></li>
+    <li><font color = "#FFFFFF"><b>FreeMouse</b></font>
+    <p>When enabled, physical mouse is free to move inside the game window when using emulated scaling and/or application and forced resolution differs;
+       can be useful when a game relies on the physical window size.
+    </p></li>
+    <li><font color = "#FFFFFF"><b>WindowedAttributes</b></font>
+    <p>You can force various properties for windowed mode rendering. The following properties can be listed, separated by commas
+		<ul>
+		<li><b>Borderless:</b> forces borderless window</li>
+		<li><b>AlwaysOnTop:</b> forces the window into the topmost z-order band</li>
+        <li><b>FullscreenSize:</b> the window content is the same as in fullscreen mode including the potential side black bars, depending on the scaling mode</li>
+		</ul>
+		<BR>
+        You can more or less emulate fake fullscreen with defining Borderless and FullscreenSize together along with enabling centered window.
+    </p></li>
+	<li><font color = "#FFFFFF"><b>Environment</b></font>
+    <p>Defines the software environment in which dgVoodoo is running. Its value can be
+		<ul>
+		<li>empty <font color = "#FFFFFF">(default)</font></li>
+		<li><b>DosBox</b> to force DosBox environment</li>
+		<li><b>QEmu</b></li>
+		</ul>
+		<BR>
+		Unless you use dgVoodoo in QEmu it's recommended to leave its value empty because dgVoodoo can detect DosBox automatically.<br>
+		In QEmu environment dgVoodoo disables its own handling of the rendering window including Alt-Enter for manual screen mode switching.
+    </p></li>
+    <li><font color = "#FFFFFF"><b>EnableGDIHooking</b></font>
+    <p>Very experimental option - when enabled dgVoodoo hooks some GDI functions to achieve displaying game cutscene movies rendered
+       through GDI (relying typically on the old AVI player lib)
+    </p></li>
+</ul>
+
+<br>
+
+<h2><font color = "#FFFFFF"><u>
+10. Direct3D 12
+</u></font></h2>
+
+Why D3D12? Because I wanted to code something using D3D12 and rotating cubes are boring.
+However, it has some drawbacks in dgVoodoo compared to D3D11.<br>
+Here are some facts and tips in regard of D3D12:
+
+<ul>
+    <li>dgVoodoo D3D11 is broken with AMD GPU's (DirectX modules). I got a ton of reports complaining about
+        solid colored polygons instead of textured ones. This problem seems to affect all
+        GCN 2 and newer GPU's and I cannot do anything about fixing it. I don't have a clue what change in my code
+        broke it and AMD probably won't fix their drivers so I don't care about it all anymore.<br>
+        On the other hand, according to the feedback I got, D3D12 works as expected so this is your
+        best bet on AMD hardware.
+    </li>
+    <br>
+    <li>Windows (not the OS but GUI windows) backed by swapchains with FLIP_DISCARD presenting mode, which is
+        mandatory for D3D12,  cannot transition back to "legacy" (GDI) presentation mode. Unfortunately it means
+        that D3D12 can be completely unusable for applications that render into their windows through multiple API's
+        like GDI, D3D9, etc. and D3D12 (dgVoodoo). Such an application is DosBox. I don't recommend dgVoodoo D3D12 for that,
+        unless you play a Glide game that has no VGA-rendered parts.
+    </li>
+    <br>
+    <li>Unlike D3D11 swapchains in dgVoodoo, D3D12 swapchains (FLIP_DISCARD) always render into a window,
+        even in fullscreen mode. Some games resize their window to match the resolution they think they rendering at.
+        No matter if you run the game in fullscreen mode, this causes a small window in the top-left corner of the
+        desktop if it happens. Try disabling option <font color="#FFFFFF">'Disable Alt-Enter to toggle screen state'</font> (see DirectX options)
+        in such a case. It may help because dgVoodoo window hooking runs on a different path in that case and it forces
+        back the window size to cover the entire screen.
+</li>
+    <br>
+    <li>Implied by the previous point, D3D12 swapchains do not support gamma ramps as well. dgVoodoo can apply gamma
+        as a postprocess effect but I didn't want it to be always forced to have effect (to get max fps's for games
+        that don't really need gamma calibration) so it only works if option <font color="#FFFFFF">'Inherit Color Profile in full screen mode'</font>
+    is enabled (see General options).
+</li>
+    <br>
+    <li><font color = "#FFFFFF">MSI Afterburner</font> relies on D3D11on12 to render its own overlay when hooking D3D12.
+        I ran into multiple cases when D3D11on12 crashed or hung at startup, for unknown reasons.
+        First try a game with MSIA shut down if you have problem with launching it.
+    </li>
+    <br>
+    <li>If you have multiple displays attached to different GPU's (rare case) then you can run into an
+        unexplainable initialization fail with certain games. D3D12 swapchains suffer from more restrictions than
+        D3D11 ones which the current version of dgVoodoo cannot handle well. Enable only one of your video cards
+        (see General options) and it should fix the problem.
+    </li>
+    <br>
+    <li>Because of the problems listed above and other known D3D12 issues that I want to address in subsequent releases, <font color="#FFFFFF">Output API option 'Best available'</font>
+        never chooses D3D12 automatically. If you want D3D12 then you must choose it explicitly in the config.
+    </li>
+    <br>
+    <li>A last one: unlike in D3D11, feature levels cannot be forced in D3D12. D3D12 takes the minimum feature level as
+        an input parameter but initializes itself at the highest available one (which is greater than or equal to the mininum).
+        So, if your GPU supports FL12.0 then it's all for the same which feature level you choose in the config.</li>
+</ul>
+
+<h2><font color = "#FFFFFF"><u>
+11. General tips and known issues
+</u></font></h2>
+<ul>
+    <li>Forcing things (like resolution, antialiasing, texture filtering, etc) is
+       not a healthy thing. If an application or game uses low resolution or point
+       sampled textures or anything dissonant to the eye then it has reasons for
+       that. It is not because the programmers were so lame but of avoiding artifacts
+       that would otherwise get brought in (typical example is a bilinear filtered
+       texture with colorkey based transparency). If you force anything then
+       potentially get one of those artifacts. If you can live with it then it is ok,
+       use the wrapper in forced mode. If not then disable all forcings and use the
+       particular game or application in the mode it was designed for, because no
+       general method exists to fix such type of artifacts.</li>
+    <br>
+    <li>Controlling antialiasing cannot be done on per-primitive basis in Direct3D 11
+       when feature set larger than 10.0 is used. That is why antialiased drawing
+       is not emulated in Glide automatically in this version in any way (per-primitive or
+       per-edge). It can only be forced globally in the CPL application.</li>
+    <br>
+    <li>Fullscreen gamma ramp may not be supported by your card. nVidia and ATI seem
+        to handle it as expected but (e.g.) Intel does not.</li>
+    <br>
+    <li>When an application is being run in compatibility mode (Win98/XP etc) then
+       <font color = "#FFFFFF">the user's application data folder is different than the OS default.</font>
+       Therefore dgVoodoo cannot read the global config file and the default
+       config gets applied if no local config file is present. The preferred way
+       is creating a local config for such cases if other than the default needed.
+       (Perhaps using the user's appdata folder is not a too good idea after all,
+       I might change it later.)</li>
+    <br>
+    <li>If you have a multimonitor system then always try a game to run on the primary
+        one for the first time. Some games lock the mouse cursor to the screen area
+        where game window is assumed to be (the left-top corner of the desktop).
+        If such a game is being forced onto another monitor then clicking in the game
+        causes application focus loss because its window is not under the mouse cursor.</li>
+    <br>
+    <li>I don't know why but overriding refresh rates by arbitrary values (in the resolution selector combo box) does not
+        seem to work for DirectX emulation. It is still subject to investigation because the code
+        handling this is common for both Glide and DirectX. :(
+    </li>
+</ul>
+
+<br>
+
+<h2><font color = "#FFFFFF"><u>
+12. Special release version with debug layer
+</u></font></h2>
+
+Special release version of dgVoodoo contains an additional validator and report layer. Its purpose is
+
+<ul>
+    <li>1) giving feedback to the user about potential error conditions, what currently is happening, and, how dgVoodoo is driven by the application at all</li>
+    <li>2) helping debugging a given application/game by the (extensive) feedback and opening the possibility to break into the debugger</li>
+</ul>
+
+dgVoodoo currently has 2 main types for debug feedback
+
+<ul>
+    <li><b>Simple messages with 3 subtypes which can be disabled or associated with a debugger break</b></li>
+    <ul>
+        <li><font color="#FFFFFF">INFO</font>: harmless message about various events like creating/releasing an API object, reading a config file, loading a module, etc.</li>
+        <li><font color="#FFFFFF">WARNING</font>: a message about a potential error condition</li>
+        <li><font color="#FFFFFF">ERROR</font>: a message about an API driving error or an internal error of dgVoodoo. The latter is fatal, while the prior one may be normal.</li>
+    </ul>
+    <br>
+    <li><b>Tracing</b> - means the full logging of API calls made to dgVoodoo and some additional information of dgVoodoo internals.</li>
+    <ul>
+        <li><font color="#FFFFFF">Level 0</font>: Tracing disabled</li>
+        <li><font color="#FFFFFF">Level 1</font>: Logging of API calls</li>
+        <li><font color="#FFFFFF">Level 2</font>: Logging of API calls + some additional info</li>
+    </ul>
+</ul>
+
+<p>
+Messages and tracing are independent on each other. Tracing is mainly for devs, for quick and average usage only the messages are recommended.<br>
+All of them are written to the debug output, logging to file is not yet implemented.<br>
+<br>
+So, I recommend you to use <a href="https://docs.microsoft.com/en-us/sysinternals/downloads/debugview">DebugView</a> or much more <a href="https://github.com/CobaltFusion/DebugViewPP/releases">DebugView++</a>.
+They are very cool applications for cases when no any debugger is available. Also, if you have more than one monitors then you can watch the log in realtime: put DebugView++ on one display and run the game on another.
+</p>
+
+<p>
+Messages have a <font color="#FFFFFF">'[dgVoodoo]'</font> prefix so the best way to check out a game with dgVoodoo's debug layer is enabling filtering to the 'dgVoodoo' substring (Crtl-L in DebugView and F5 in DebugView++).
+Every single log output appear in new lines in DebugView/DebugView++ - this is nice, except for some tracing messages written to the output part by part, like D3D8 disassembled shaders.
+Unfortunately they appear nastily because of that.
+</p>
+
+<p>
+It's not really a big problem however because I cannot recommend you to enable tracing. It's much more intended for developers but if you want to use it after all then
+do it with <font color="#FFFFFF">DebugView++</font> or a debugger like <font color="#FFFFFF">Visual Studio 2015</font> because feedback is so tremendous that only tools 
+with asynchronous debug output window are able to handle it. Tools with synchronous debug output like <font color="#FFFFFF">DebugView</font> won't be able to keep up with
+it and make your game/app crawl at speed near zero.
+</p>
+
+<p>I must emphasize:
+    <ul>
+    <li>Do not look for a miracle when using the debug layer! If some game doesn't work for you then it can give you some useful feedback
+        on what's going on, or you can see if dgVoodoo is utilized at all but won't necessarily tell you why the game crashes, for example.<br>
+        Also, if you see an ERROR entry in the log then it doesn't necessarily mean you did something wrong or there is a problem with your game.
+        Many games rely on error codes got back from an API. So, for example if you see such a log like the following snippet
+        <PRE class=code>
+...
+[15500] [dgVoodoo] INFO: Direct3DDevice (0D3967D8)::EnumTextureFormats: Format XRGB8888 is enumerated to the application.
+[15500] [dgVoodoo] INFO: Direct3DDevice (0D3967D8)::EnumTextureFormats: Format ARGB8888 is enumerated to the application.
+[15500] [dgVoodoo] INFO: Direct3DDevice (0D3967D8) is released.
+[15500] [dgVoodoo] ERROR: DirectDrawSurface (0D2380C8)::DeleteAttachedSurface: Failed, HRESULT: DDERR_SURFACENOTATTACHED
+[15500] [dgVoodoo] INFO: DirectDrawSurface (0D2380C8) Plain offscreen rendertarget is released.
+[15500] [dgVoodoo] INFO: Direct3D (0ABC87B0)::EnumDevices: Device enumerated, Name: "Direct3D HAL", Description: "dgVoodoo Hardware A...
+...
+        </PRE>
+        Then the error entry about failed 'DeleteAttachedSurface' is not really an error. The application tried to delete a potential attached z-buffer, just to make sure, and doesn't care about the result.
+        dgVoodoo however treat it as an error because it caused an error in an API method. It's really impossible to make a decision about classifying some conditions as an error or just a plain warning.<br>
+        But let's look at another case: one of my game just crashes right at startup. What could be the reason? The debug output is:
+        <PRE class=code>
+...
+[21964] [dgVoodoo] INFO: Direct3D8 (077BCEC8) Virtual video card is 'dgVoodoo Virtual 3D Accelerated' with 64MB onboard memory.
+[21964] [dgVoodoo] ERROR: Direct3D8 (077BCEC8): Validation of D3D8 swapchain presentation parameters failed.
+                          Reason: display mode "800x600, 72Hz" is required but not supported by output device: 0, DeviceType: D3DDEVT...
+[21964] [dgVoodoo] ERROR: Direct3DDevice8 (0EE99530)::Init: Cannot create device implicit swapchain.
+[21964] [dgVoodoo] ERROR: Direct3D8 (077BCEC8)::CreateDevice: Initializing Direct3DDevice8 (0EE99530) failed.
+...
+        </PRE>
+        Ah, OK. Previously I configured the game to run on a display at 72Hz but now I'm trying to run it on another that does not support this refresh rate at this resolution,
+        so D3D8 initialization failed in dgVoodoo and so the game crashed due to lack of error checking.
+    </li><br>
+    <li>
+        Use the spec release only for trying to solve an extant problem with an applicaiton. Spec release does some extra checking and validation compared to normal dgVoodoo releases and it can bite off from the speed or cause stuttering.
+    </li>
+</ul></p>
+
+<br>
+
+<h2><font color = "#FFFFFF"><u>
+13. Change log
+</u></font></h2>
+
+<ul>
+     <li>
+        <font color="#FFFFFF">2.7</font>
+        <ul>
+            <li>D3D12 backend (output API) for all modules</li>
+            <li>Various bugs are fixed in the D3D11 backend and common swapchain handling (also, it is refactored)</li>
+            <li>Various bugs are fixed both in Glide and DirectX frontend, including cooperating between Glide and DirectX</li>
+            <li>Improved fast video memory access with some fixes (DirectX)</li>
+            <li>2D DirectX operations are now more compatible with forced MSAA</li>
+            <li>Removing support for d3dcompiler_43 (affects only Glide)</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.64 - Incremental update to 2.63.2</font>
+        <ul>
+            <li>Bug causing crash is fixed in D3D (Hot Wheel Micro Racers)</li>
+            <li>Fixing a bug in the DXBC generator (Psychonauts)</li>
+            <li>Fixing a bug in the DX11 backend causing corrupted textures (RIM - Battle Planets low texture quality)</li>
+            <li>Fixing a bug in D3D9 frontend (Hydro Thunder MAT3 crash)</li>
+            <li>Fixing an old limitation in dgVoodoo internals (crash with Atomic FE)</li>
+            <li>Dithering did not work with Glide3 Napalm build - fixed</li>
+            <li>Fixing malfunctioning auto-aspect ratio correction for swapchains unexpectedly forced back to windowed mode</li>
+            <li>Fixing broken dynamic resolution/MSAA/output config change in Glide</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.63.2 - Minor update to 2.63.1</font>
+        <ul>
+            <li>DDraw palette fixes (unsupported types, crash) (Anarchy Online, Dark Omen)</li>
+            <li>Fixing DDraw texture/offscreen parameter validation (regression bug) (Planet Of The Apes)</li>
+            <li>Fixing DDraw texture restore bug (Machines)</li>
+            <li>Autogen-mipmap capability for the GF5700 virtual card (RPM Tuning)</li>
+            <li>Minor leak/crash fixings are ported back from the main branch</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.63.1 - Minor update to 2.63</font>
+        <ul>
+            <li>Fixing DDraw texture parameter validation regression bug (Eurofighter Typhoon, Radeon's Ark, Zanzarah)</li>
+            <li>Fixing D3D device enumeration that was incompatible with MS D3D (Tomb Raider 4/5)</li>
+            <li>Minor improvement of D3D debug layer feedback</li>
+            <li>Improving internals of D3D resolution scaling (Omikron - The Nomad Sould pathed version, but affects other games too)</li>
+            <li>Fixing a minor D3D DXBC generator bug (Halo CE)</li>
+            <li>Fixing an annoying (regression) thing: desktop video mode can change for a short time when switching between fullscreen/windowed mode</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.63</font>
+        <ul>
+            <li>New type of filters for resampling the output image are added (Bicubic, Lanczos-2, Lanczos-3)</li>
+            <li>Support for mipmapping when downscaling the output image</li>
+            <li>Default DirectX refresh rate is changed from 60Hz to the one coming from GeneralExt\DesktopResolution</li>
+            <li>DirectX-Glide cooperation bug, fixed (Hind)</li>
+            <li>Changing Glide texture filtering options</li>
+            <li>Minor bug in D3D9 sw lighting calcs, fixed</li>
+            <li>Cosmetic changes of some CPL tooltips</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.62.3 - Minor update to 2.62.2</font>
+        <ul>
+            <li>Fixing minor D3D9 bugs (Splinter Cell 4)</li>
+            <li>Fixing D3D fogging bug (Pariah, but can easily affect other games)</li>
+            <li>Fixing minor DDraw incompatibilities (Dark Omen - but use it together with my game patch)</li>
+            <li>Disabling reporting 8 bit display modes as current monitor modes for D3D8/9 (Xanadu Next)</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.62.2 - Minor update to 2.62.1</font>
+        <ul>
+            <li>Changing DDraw device GUIDs to match MS DDraw ones</li>
+            <li>Improving validation feedback for DDraw Create methods in debug layer</li>
+            <li>Optimizing something (60 Seconds for Mr. Light)</li>
+            <li>Fixing FVF validation for DX5/6/7 (Motocross Madness 2)</li>
+            <li>Fixing validation of vertexbuffer create parameters for DX6/7 (Hot Wheel Slot Cars)</li>
+            <li>Fixing minor buffering bug (Shadow Grounds)</li>
+            <li>Minor change in resolution scaling calcs</li>
+            <li>Fixing drawing of emulated monochrome cursors (Jane's FA-18)</li>
+            <li>Changing versioning of Glide modules (TA Kingdoms Glide3 renderer)</li>
+            <li>Changing hardware descriptor string for QEmu environment (Voodoo4)</li>
+            <li>Fixing minor bugs in the CPL</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.62.1 - Minor update to 2.62</font>
+        <ul>
+            <li>Minor DDraw palette-incompatibility fix (Steel Beasts)</li>
+            <li>Fixing a minor incompatibility for generated shader code (Richard Burns Rally)</li>
+            <li>Minor optimization for generated shader code (Jurassic Park: Operation Genesis)</li>
+            <li>Changing failed scissor rect validation from ERROR to WARNING in D3D9 (Grand Chase)</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.62 - Update to 2.61</font>
+        <ul>
+            <li>Fixing bugs in the DXBC generator (Halo CE, Splinter Cell 1, The Sims 2)</b></li>
+            <li>Fixing a drawing bug causing polygon corruption (The Sims 2)</li>
+            <li>Adding DX feature level 11.0 as output API for 16K size textures (DX8/9)</li>
+            <li>
+                True software vertex processing in Draw* methods in DX modules for special cases, when needed (Nosferatu)<br>
+                (but it was a general long outstanding compatibility problem)
+            </li>
+            <li>Some DDraw blit refactor + adding option <b>DirectXExt\PrimarySurfaceBatchedUpdate</b> for batched update for primary surface changes<br></li>
+            <li>Some DDraw improvement for GDI interaction (Bad Mojo Redux video playback)</li>
+            <li>Size of the emulated hw cursor is now scaled according to the forced resolution and integer scale factors</li>
+            <li>Fixing the behavior of the emulated cursor when no any draw-changes made on the app side</li>
+            <li>Fixing bugs in handling rendering windows (Requiem)</li>
+            <li>Now all sections of the configuration are accessible through the CPL GUI (Ext sections are hidden by default though)</li>
+            <li>
+                Adding a new option for, and implementing Display ROI (region of interest)<br>
+                Now a subrectangle can be defined for scaling modes done by the wrapper. Useful for applications rendering into a widescreen subrectangle inside
+                a 4:3 resolution - the widescreen subrectangle can be defined as display ROI, the input of the scaling process
+            </li>
+            <li>Dithering didn't work for render targets with format A2R10G10B10, fixed</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.61 - Update to 2.6</font>
+        <ul>
+            <li>Support for the external compiler in DirectX modules is removed, along with option <b>DirectXExt\ShaderCodeGenerating</b></li>
+            <li>Bugfixes in the DXBC generator (Indiana Jones and The Emperor's Tomb, +general code revising)</li>
+            <li>Somewhat more optimized generated shader code + other minor optimizations</li>
+            <li>Minor DDraw fixes (Siege of Avalon)</li>
+            <li>Minor D3D vertex processing fix (Biko 1)</li>
+            <li>Adding option <b>DirectExtX\MaxVSConstRegisters</b> (Artifical Academy 2)</li>
+            <li>Fixing D3D9 scaling bugs (AvP Classic with DX9 renderer)</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.6</font>
+        <ul>
+            <li>Support for Direct3D9</li>
+            <li>Internal shader code (DXBC) generator for DirectX libraries (the external compiler is no longer needed for them)</li>
+            <li>Various bugfixings, optimization and code refactoring for DirectX libraries</li>
+            <li>Some new config options</li>
+            <li>Fix for grTexCalcMemRequired for more compatibility with real drivers (Glide 1/2)</li>
+            <li>Fixing some polygon clipping issues (Glide 1/2)</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.55.4 - Update to 2.55.3</font>
+        <ul>
+            <li>Adding new config element <b>GeneralExt\WindowedAttributes</b> for borderless and always on top windows</li>
+            <li>D3D6 fixes (The Sims, The Sims Complete Collection)</li>
+            <li>Changing default texture sample value (Silent Hill 2 'white shader')</li>
+            <li>DDraw fix (Lego Rock Raiders hangup)</li>
+            <li>D3D ProcessVertices fix (RIM - Battle Planets)</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.55.3 - Update to 2.55.2</font>
+        <ul>
+            <li>Adding support for QEmu (x64 Glide binaries for <b>Kjliew</b>'s Glide patch)</li>
+            <li>Fixing regression bug appearing in 2.55.1, related to adapter handling (causing crashes and other anomalies)</li>
+            <li>Adding value 'max' to option <b>DirectXExt\ExtraEnumeratedResolutions</b></li>
+            <li>Adding new config element 'GeneralExt\Environment' for QEmu and DosBox</li>
+            <li>DDraw Blit colorfill fixed on 8bpp surfaces with forced resolution or MSAA (Colin McRae Rally)</li>
+            <li>DXGI swapchain fullscreen switch fix (Full Throttle, Sam & Max)</li>
+            <li>Simulating GF4 driver more precisely with the 'GF4 Ti 4800' video card type (Splinter Cell: Defense Ministry shadows)</li>
+            <li>Fix for special D3D8 behavior of vertex buffer locks (Lego Soccer Mania)</li>
+            <li>D3D8 pixel shader validator bug fixed (Mage Knight - Apocalypse)</li>
+            <li>Small fix in guTex* Glide function family (Turok demo)</li>
+            <li>Bug in mouse emulation is fixed (absorbing mouse input like in NFS - Porsche 2000)</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.55.2 - Minor update to 2.55.1</font>
+        <ul>
+            <li>Bug when rendering with paletted textures, fixed (Final Fantasy 8 demo) </li>
+            <li>DirectDraw palette alpha-channel incompatibility, fixed (FFXI PlayOnline Viewer)</li>
+            <li>Texture upload crash, fixed (Redline demo)</li>
+            <li>Texture upload bug, fixed (Universal Monsters: Monsterville demo) </li>
+            <li>Clipping issues, fixed (Stratosphere) </li>
+            <li>Bug of config item <b>GeneralExt\EnumeratedResolutionBitdepths</b> is fixed</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.55.1 - Minor update to 2.55</font>
+        <ul>
+            <li>Forceable internal bit depth of D3D depth buffers</li>
+            <li>Bugs in D3D light handling, fixed (Soldiers of Anarchy, Cold Zero demo)</li>
+            <li>D3D alphablending fix (Mage Bros)</li>
+            <li>Workaround for D3D8 vertex buffer overwrite (BattleField 1942)</li>
+            <li>Some incomplete interface querying is fixed for aggregated D3D devices</li>
+            <li>New options (enumerated resolution bit depths, limited default enumerated resolution) for DirectX along with minor fixes in the config validator</li>
+            <li>Corrected tmuRev and fbiRev version number for some 3Dfx card types</li>
+            <li>Minor changes in the debug layer (corrected mistypings, some value types are replaced by strings, etc.)</li>
+        </ul>
+    </li>
+    <BR>
+    <li>
+        <font color="#FFFFFF">2.55</font>
+        <ul>
+            <li>Special release of dgVoodoo with DebugLayer providing feedback information is now available</li>
+            <ul>
+                <li>INFO, WARNING and ERROR type messages with severity levels, including breaking into debugger</li>
+                <li>API call tracing with detailed information</li>
+            </ul>
+            <li>Migrating to INI format configuration files - also, adding rarely needed/used configuration options for advanced users and game hacking like</li>
+            <ul>
+                <li>Dithering for both Glide and DirectX</li>
+                <li>Deframer</li>
+                <li>Pixel multiplied output with arbitrary or automatic scale factor</li>
+                <li>Arbitrary extra DirectX resolutions</li>
+            </ul>
+            <li>New scaling mode for centered appearance, scaling is done by the wrapper</li>
+            <li>New dynamic resolution modes (2x, 3x, ...) are added</li>
+            <li>Fixes for scaled output done by the wrapper ('Stretched, * AR' and 'Centered, AR' modes with larger than max of display-supported output images)</li>
+            <li>Fix for 'Best available one' output type when only WARP is available</li>
+            <li>Improved shader handling:</li>
+            <ul>
+                <li>Resource cache for reuse of D3D8 compiled shaders</li>
+                <li>
+                    Dynamic shader compiling is moved to a background thread to avoid/minimize lags<br>
+                    Glide: for all compiled shaders<br>
+                    DirectX: for all compiled shaders that can be substituted by precompiled ones; also, unneeded shader variants could be unnecessary compiled, fixed
+                </li>
+            </ul>
+            <li>
+                Control Panel App
+                <ul>
+                    <li>Folder/location list handling code is rewritten</li>
+                    <li>Appearance is now PerMonitorAwareV2 for DPI scaling</li>
+                    <li>Cosmetics: missing logo bitmap when monitor scale is >150%, fixed</li>
+                </ul>
+            </li>
+            <li>
+                DirectX
+                <ul>
+                    <li>DllMain detection along with warning messages through the debug layer</li>
+                    <li>Surface/texture lock incompatibilites fixed (Zombie Shooter, The Mystery of the Druids)</li>
+                    <li>DirectDraw surface-create, cooperative level, PageLock error and other incompatibility fix (Zero Comico, RC de Go, A Bug's Life, Wartorn, Message in a Haunted Mansion, Micro Machines v3)</li>
+                    <li>24 bit surface creation issue in DirectDraw is fixed (Blade Of Darkness lava)</li>
+                    <li>Support for partial Z-buffer copy in DirectDraw (The Revenant)</li>
+                    <li>Option for disabling the default and classic resolutions</li>
+                    <li>Possibility of extra resolutions enumerable to applications is added</li>
+                    <li>Bugs causing crash and black screen are fixed (Empires Dawn of The Modern World, Honour & Freedom)</li>
+                    <li>Some effort for avoiding app deadlocks in DirectDraw and QuartzHookLayer</li>
+                    <li>D3D FVF and other parameter validation incompatibility, fixed (Praetorians, Earthworm Jim 3D)</li>
+                    <li>D3D state block incompatibility, fixed (Soldiers of Anarchy)</li>
+                    <li>D3D non-W-friendly matrix in ComputeSphereVisibility calcs, fixed (Pac-Man Adventures in Time)</li>
+                    <li>Old D3D-lighting incompatibility, fixed (when revising code and docs)</li>
+                    <li>D3D lighting issue is fixed (flashing lights in Tomb Raider 4 and hopefully King Of The Roads)</li>
+                    <li>Fixing range based fog hw calculations (The Chosen: Well of Souls)</li>
+                    <li>ATI and GeForce profiles are modified to force W-pixelfog (compatibility with old drivers)</li>
+                    <li>Minor D3D DDI bug fixed (Bear Hero)</li>
+                    <li>Minor internal D3D state/lighting bugs fixed (Tonko4)</li>
+                    <li>D3D device type 'Software MMX' is removed from Direct3D7 for better compatibility (3D Blitz)</li>
+                    <li>Disabling 32 bit z-buffers for Direct3D3/5 (e.g. Shadows of The Empire)</li>
+                    <li>D3D FPU state handling incompatibility fix (for general cases, and it fixed nVidia demos Creature, Toy Soldiers and Crystal Ball)</li>
+                    <li>D3D colorkey bug fixed (Sponge Bob - Employee of The Month)</li>
+                    <li>Minor D3D/D3D8 bugs, D3D11 leaks fixed (my own tests)</li>
+                    <li>D3D/D3D8 ProcessVertices and general software vertex processing incompatibility, fixed (RIM - Battle Planets, Mafia with multipass rendering, Micro Commandos)</li>
+                    <li>Issue of mixed type D3D8 stream sources is fixed (missing player characters in Final Fantasy XI)</li>
+                    <li>D3D8 shader validator bug resulted in uncreated shaders, fixed (Mace Griffin Bounty Hunter)</li>
+                    <li>Implementing D3D8 ValidateVertexShader and ValidatePixelShader for Microsoft Shader Assembler (Shadow of Destiny)</li>
+                    <li>D3D8 cursor handling and viewport depth scaling bugs fixed (WildFire)</li>
+                    <li>D3D8 GetFrontBuffer bug, fixed (Rome Total War) (movies only, ingame still has the old issues)</li>
+                    <li>D3D8 device reset fix (S.W.I.N.E.)</li>
+                    <li>Some D3D8 thing is fixed (The Gladiators Demo)</li>
+                    <li>D3D8 some object handling incompatibility fix (TOCA Racing Drive)</li>
+                    <li>Improvements for rendering with incompatible rendertarget/depthstencil buffers (TOCA Racing Drive)</li>
+                    <li>Changed behavior of window activating and entering fullscreen mode to</li>
+                    <ul>
+                        <li>Avoid OS issue appearing with Windows 10 Fall Creators Update (e.g. Splinter Cell)</li>
+                        <li>Avoid unwanted situations/crashes and improve compatibility (e.g. Hitman 2/3, RavenShield) </li>
+                    </ul>
+                </ul>
+            </li>
+            <li>
+                Glide
+                <ul>
+                    <li>Clipping issues fixed (Gunmetal)</li>
+                    <li>LfbWriteRegion bug, fixed (Blade of Darkness, background images)</li>
+                    <li>Other fixes (broken multiadapter handling, manual screen mode changing)</li>
+                </ul>
+            </li>
+        </ul>
+        <font color="#FFFFFF">2.54</font>
+        <ul>
+            <li>Windows input issues caused by the wrapper are fixed (Outlaws, GTA1 DDraw mode, etc.)</li>
+            <li>Rendering transition between Glide/DDraw is fixed (Outlaws)</li>
+            <li>Concept of setup application is replaced with concept of Control Panel (CPL)</li>
+            <li>Control Panel App:</li>
+            <ul>
+                <li>Contrast as a new color adjustment option is added</li>
+                <li>Preserving predefined monitor color profile(s) for fullscreen mode as an option is added</li>
+                <li>A general option for centering the application/game window is added</li>
+                <li>DirectX texture filtering options are changed, possibility of forcing anisotropic filtering is introduced</li>
+                <li>New scaling mode with C64-like output (it's not a feature but more like an experimenting code)</li>
+                <li>Visual cosmetics</li>
+            </ul>
+            <li>DirectX:</li>
+            <ul>
+                <li>
+                    Some of the DDraw code is guarded to avoid the unexpected worst-way DLL unloading<br>
+                    Now LithTech engine games (Blood2, NOLF, Kiss Psycho Circus, ...) should tolerate Alt-Tab on Win10
+                </li>
+                <li>Some other extra guarding to prevent crashes, Virtua Cop2 now works in D3D mode</li>
+                <li>Blit bug and clipper incompatibility fixed in DDraw (D3DRM, Tokipazu, tech demo Final Reality)</li>
+                <li>Minor issue in DDraw and bad L6V5U5 format descriptor is fixed (Kyro tech demos)</li>
+                <li>Adding support for plain surface format A8L8 (DDraw) (Matrox G400 Tech Demo)</li>
+                <li>D3D3 fog fixed (Shadows of The Empire patched to 1.1)</li>
+                <li>Execute buffer bug fixed in D3D (D3DRM)</li>
+                <li>Some D3D5 incompatibilities are fixed (crash and texture handling with Space Bunnies Must Die)</li>
+                <li>Fixing D3D6 bugs and calculations of old software-only lighting and other incompatible things (DX6 SDK sample applications (Immediate/Retained) + Fog City/Tirtanium demos)</li>
+                <li>Unexpected way of texture compression is implemented (D3D7, Soulbringer)</li>
+                <li>Adding support for Q8W8V8U8 texture format (D3D8) (3DMark 2001 SE, Nature, Pixel shader and Advanced Pixel shader test)</li>
+                <li>D3D8 device handling bug is fixed (multimonitor environment)</li>
+                <li>
+                    D3D8 compatibility fixings, now handling managed textures is compatible with Phantasy Star Online Blue Burst
+                    (corrupt mipmapping)
+                </li>
+                <li>Issue with D3D8 device capabilities and SYSTEMMEM vertex buffers are fixed (LKCC demos)</li>
+                <li>D3D8 DrawIndexedPrimitive bug fixed (Syberia 2)</li>
+                <li>Adding support for depth buffer format D24X4S4 (D3D8) (Matrox Parhelia Reef Tech Demo)</li>
+                <li>
+                    Adding support for volume textures (D3D8), though with limited number of formats
+                    (Matrox Parhelia Coral Reef Tech Demo + DX8 SDK VolumeTexture sample + general)
+                </li>
+                <li>
+                    Lower resource usage is partly included in this version.
+                    For the time being, only the usage of GPU accessible system memory.
+                </li>
+                <li>
+                    General bugfixing, like unexpected forced windowed mode (Soulbringer movies), vertex shader (missing fog in Colin McRae Rally), non-perspective polygon drawing bug,
+                    fixed (Zanzarah The Hidden Portal), and a lot other
+                </li>
+                <li>Handling depth buffers had some bugs at FL 10.0, fixed (D3D11)</li>
+                <li>Potential bad driving of D3D11 at FL10.1 when no resolution and MSAA is forced (D3D11) (Gorky17)</li>
+                <li>Some (regression and other) bugs in the D3D11 renderer are fixed</li>
+                <li>GeForce 4 profile is slightly modified to match a real GF4</li>
+                <ul>
+                    <li>Now light beams in Splinter Cell 1 should be rendered correctly through the GF4 card type (unblurred lights with occlusion)</li>
+                </ul>
+                <li>2 new videocard types are added:</li>
+                <ul>
+                    <li>GeForce FX 5700 Ultra (keeps the soft shadows for Splinter Cell 1 (because I like it :D) and will hopefully be feasible to provide place for new features later)</li>
+                    <li>Matrox Parhelia-512 (for Matrox Coral Reef Demo 1.1 and other Matrox tech demos)</li>
+                </ul>
+            </ul>
+            <li>Glide:</li>
+            <ul>
+                <li>Glide fix (far background in front of the 3D world: Mig29, Uprising)</li>
+                <li>Texture memory report is modified to match that of a real 3Dfx driver (Slave Zero)</li>
+            </ul>
+            <li>Tons of code changing for new features that are not ready yet and so not included in this version</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color="#FFFFFF">2.53</font>
+        <ul>
+            <li>Support for 'dynamic resolutions' (see section 'Resolution overriding')</li>
+            <li>
+                Added support for 'd3dcompiler_47.dll', so Win10 users don't have to
+                download and mess with d3dcompiler dll, 47 is part of the Win10 OS.
+            </li>
+            <li>
+                Linear filtering was applied for upscaling the output-image even if the
+                scale ratio was 1.0, fixed
+            </li>
+            <li>
+                Some modifications on the CRT-like shader were done for correct CRT-like
+                appearance on high-res displays like a 4K monitor
+            </li>
+            <li>Glide mode 'Compare to bias' is fixed (Esoteria demo)</li>
+            <li>Some other Glide rendering issues are fixed (Hype - The Time Quest)</li>
+            <li>
+                DDraw system memory surface pitch is fixed to match that of DIBs
+                (Snow Wave Avalanche)
+            </li>
+            <li>
+                A DX8 bug is fixed, so Mafia now works, altough I experience z-buffer
+                glitches here and there (to be fixed)
+            </li>
+            <li>Lot of general D3D/D3D8 bugs are fixed, too</li>
+            <li>
+                GeForce4-style shadow buffering is reverse engineered and implemented in
+                the 'Geforce Ti4800' preset
+            </li>
+            <li>
+                Floating point arithmetic differences (incompatibilities) between vs1.x
+                and vs4.x are resolved, Splinter Cell 1 now works in shadow buffer mode
+            </li>
+            <li>
+                New dynamic vertex buffering algorhythm for removing rendering performance
+                bottleneck, better usage of GPU
+            </li>
+            <li>
+                The config application is now per-monitor DPI-aware, to have sharp
+                appearance
+            </li>
+            <li>MSAA option name 'Auto' is changed to 'App driven'</li>
+            <li>New option for DirectX emulation is added (No texture filtering)</li>
+            <li>Changes in the default config:</li>
+            <ul>
+                <li>Capture mouse is on</li>
+                <li>MSAA is app driven</li>
+            </ul>
+            <li>Doc format is changed from txt to html and content is revised</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color="#FFFFFF">2.52</font>
+        <ul>
+            <li>Support for new output APIs are added</li>
+            <ul>
+                <li>Direct3D11 at feature level 10.0 (there are some restrictions)</li>
+                <li>Direct3D11 Microsoft WARP renderer</li>
+            </ul>
+            <li>Support for rendering DirectShow movie playback</li>
+            <li>Resolution overriding for DirectX emulation is now available</li>
+            <li>
+                New scaling mode (forced 4:3 aspect ratio) with/without CRT-like
+                appearance is added
+            </li>
+            <li>MSAA support for DX8</li>
+            <li>Lot of DX8 bugfixings</li>
+            <li>A few DDraw/D3D bugfixings</li>
+            <li>
+                Making 'VertexLayout' functionality be compatible with a real 3Dfx
+                driver (Glide3)
+            </li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color="#FFFFFF">2.51</font>
+        <ul>
+            <li>Point sprite support for DX8 is added</li>
+            <li>New texture formats (A8, L8, A8L8) for DX7/DX8 are added</li>
+            <li>Tons of DX8 bugfixings, more compatibility</li>
+            <li>More DirectDraw compatibility in object handling + bugfixing</li>
+            <li>Regression bugs in Glide fixed</li>
+            <li>
+                Capabilities of GeForce Ti 4800 and ATI Radeon 8500 are changed to be much
+                closer to the real ones (see the technical details in the DX readme)
+            </li>
+            <li>
+                AMD driver bug causing driver crash with Glide rendering is workarounded
+                now dgVoodoo should work on all AMD cards properly
+            </li>
+            <li>'Fast video memory access' is now compatible with Unreal engines</li>
+            <li>
+                Emulated method of stretching the display output with keeping aspect ratio
+                is added
+            </li>
+        </ul>
+        <br>
+    <li>
+        <font color="#FFFFFF">2.5</font>
+        <ul>
+            <li>First version of D3D8 implementation is added</li>
+            <li>
+                Lot of bugs fixed during general DirectX code refactoring, I don't want
+                to detail them all here
+            </li>
+            <li>
+                Dynamic shader compiling for all API components for better performance
+                (see Usage and DirectX readme for details, you'll need D3DCompiler_43.dll
+                for this feature)
+            </li>
+        </ul>
+    </li>
+    </br>
+    <li>
+        <font color="#FFFFFF">2.45</font>
+        <ul>
+            <li>Heavily refactored DirectX emulation code for certain planned features</li>
+            <li>Full cooperating between Glide and DirectX</li>
+            <br>
+            <li>
+                DirectDraw emulation:
+                <ul>
+                    <li>True multidevice support, more robust DDraw emulation</li>
+                    <li>OLE interface support for DirectDraw</li>
+                    <li>
+                        DXTC (S3TC) block compression encoder is added, full support for
+                        possible alpha-format conversions
+                    </li>
+                    <li>
+                        Two new video card types are added with slightly different properties
+                        (GeForce4 Ti 4800, ATI Radeon 8500)
+                    </li>
+                    <li>DirectDraw emulation-only mode could fail, fixed</li>
+                    <li>Various DirectDraw bugs/incompatibilities are fixed</li>
+                    <li>Blitting bugs fixed + full support for blitting from primary surface</li>
+                </ul>
+                <br>
+            <li>Direct3D emulation:</li>
+            <ul>
+                <li>
+                    New colorkeying method added and existing colorkeying related bugs
+                    are fixed
+                </li>
+                <li>Bugs in rendering from execute buffers (points/lines), fixed</li>
+                <li>Bug in handling state blocks, fixed</li>
+            </ul>
+            <br>
+            <li>Glide rendering</li>
+            <ul>
+                <li>Resolution extension support (idea and technical concept by VEG and Zeus)</li>
+            </ul>
+        </ul>
+    </li>
+    </br>
+    <li>
+        <font color="#FFFFFF">2.44</font>
+        <ul>
+            <li>DirectX emulation:</li>
+            <ul>
+                <li>Some surface/D3D device related bugs are fixed</li>
+                <li>Mirrored blitting was broken, fixed</li>
+                <li>24bit software surface support is added</li>
+                <li>
+                    support for DXT1-5 compressed textures is added but an S3TC encoder is
+                    still missing for the cases when a compressed texture is the blitting
+                    target
+                </li>
+                <li>
+                    Transforming normal vectors was incompatible with MS D3D, fixed
+                    This fix includes enabling/disabling of normalizing them, default was
+                    wrong for older than DX7 interfaces
+                </li>
+                <li>Colorkey blend capability is added</li>
+                <li>support is added for old mode-X display modes</li>
+                <li>Various other small bugs fixed that I can't remember of</li>
+            </ul>
+        </ul>
+    </li>
+    </br>
+    <li>
+        <font color="#FFFFFF">2.43</font>
+        <ul>
+            <li>DirectX emulation:</li>
+            <ul>
+                <li>3D support for 8 bit surfaces is added (Colin McRae Rally)</li>
+                <li>
+                    Improved surface blitting, more optimal resource consuming for 3D
+                    surfaces
+                <li>First version of fast surface video memory CPU-access is added
+                <li>
+                    Introducing 'lost' state into the default DX behavior, with additional
+                    automatic self-restore mechanism for buggy DX applications
+                <li>3D TL vertex rendering incompatibilites, fixed
+                <li>Various small 3D/caps related bugs, fixed
+                <li>Several other bugfixes that I don't want to word here
+            </ul>
+            <li>Other:</li>
+            <ul>
+                <li>
+                    Some problems related to the window procedures and message handling
+                    are fixed
+                </li>
+                <li>
+                    Names of the wrapped running DX applications were displayed incorrectly,
+                    fixed
+                </li>
+            </ul>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color="#FFFFFF">2.42</font>
+        <ul>
+            <li>Direct3D3 renderstate handling bugfixes (some of them were disabled)</li>
+            <li>Various DirectDraw bugfixes like object/structure version handling,</li>
+            surface blitting, basic ROP codes are added, and others
+    </li>
+    <li>Compatibility fixings in DirectDraw surface creation functionality</li>
+    <li>Compatibility fixings in DirectDraw surface locking functionality</li>
+    <li>Compatibility fixings in Direct3D device creating</li>
+    <li>
+        Fixing/refactoring light handling in general; now software vertex
+        processing can handle any number of them, and also, they can be added at
+        any index in Direct3D7
+    </li>
+    <li>32 bit z-buffer support added</li>
+    <li>Minor Direct3D rendering bugs</li>
+    <li>
+        Bad return code in an empty (but necessary) function on IDirect3DTexture,
+        fixed
+    </li>
+    <li>Missing multithreading guarding in some Direct3D3 methods, fixed</li>
+</ul>
+    </li>
+    <br>
+    </li>
+        <font color = "#FFFFFF">2.41</font>
+        <ul>
+            <li>Direct3D 3 support is added;
+                that is all Direct3D interface is supported now</li>
+            <li>Bug in the resolution enumerator in DirectDraw, fixed
+                 (classic and all other resolutions are now enumerated with all bit depths.)</li>
+            <li>Resolution combo box was buggy in the setup; couldn't enumerate anything
+                when too much resolutions were available, fixed</li>
+            <li>Logic of selecting the refresh rate when unspecified rate is requested
+                by the application is changed</li>
+            <li>Overridable refresh rates</li>
+            <li>Bugfixings and improvement for blitting to the primary surface in
+                DirectDraw</li>
+            <li>Bugfixings for other general surface locking/blitting functionality</li>
+            <li>Minor DrawPrimitive bug fixed (missing triangles in Diablo II with
+                Direct3D renderer)</li>
+            <li>Bug with monochrome lighting is fixed
+                (discovered with Jedi Knight - Mysteries of the Sith)</li>
+            <li>Bug in surface blitting, fixed (The Settlers IV)</li>
+            <li>Bug/incompatibility fixings in surface handling in:
+                GetAttachedSurface, EnumerateSurfaces, SetSurfaceDesc and loading
+                textures from system memory surfaces to texture surfaces in video memory</li>
+            <li>DX wrapper is now more noshutdown-proof when unexpectedly pulled out from
+	            the process memory area; LithTech engine based games now should work
+                (tested with Blood2 and Shogo Mobile Armor Division)</li>
+            <li>Various other small bugs fixed that I came across</li>
+            <li>Introducing 'unspecified' scaling mode. If you want to apply
+                'scaling but keeping aspect ratio' then select it on your graphics driver
+                control panel and select 'unspecified' mode in dgVoodoo Setup.
+                If it does not work then your only chance is forcing it through the
+                graphics control panel (it all seems to be a Windows issue).</li>
+            <li>Disabling 'Bilinear blit stretch' in the default configuration.
+                I've seen a few games where it caused more 'harm' than coolness that is
+                why I decided to disable it by default.</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.4</font>
+        <ul>
+            <li>DirectX rendering:</li>
+            <ul>
+                <li>New, improved version of DirectDraw. It fully supports creating and
+                    blitting to/from textures, Z-buffers and 3D-renderable surfaces with
+                    several pixel formats. Also, general API-behavioring is more accurate
+                    to the original one because of lot of bugfixings and heavy reverse
+                    engineering.</li>
+                <li>Gammacontrol interfaces is added to DirectDraw</li>
+                <li>First version of Direct3D implementation is added and (almost) fully
+                    supports DirectX5, DirectX6 and DirectX7. For more and technical details,
+                    see the DirectX readme. Direct3D interfaces are also as carefully reverse
+                    engineered as DirectDraw ones.</li>
+            </ul>
+
+	        <li>Glide rendering:</li>
+            <ul>
+	            <li>Bug in handling utility textures, fixed (missing textures in South Park)</li>
+                <li>Bug with PALETTE6666 extension fixed
+                    (unreadable menu text in Need For Speed - Porsche 2000 with a Voodoo2
+                    or higher)</li>
+                <li>Bug with tripebuffering fixed (missing 3D elements in The Tainted)</li>
+                <li>Adapting Glide3 to 3Dfx mini GL driver (3Dfxvgl.dll),
+                    (American McGee's Alice):</li>
+                <li>Lowering gamma bitnum to 8 (3Dfx didn't follow his own rules...)</li>
+                <li>Some init/exit code could get stuck because they can get called from
+                    DLLMain, fixed</li>
+            </ul>
+            <li>Setup</li>
+            <ul>
+                </li>'Apply' button in the setup is added
+                     (I got bored to OK'ing and reopening the setup each time I want to
+                     modify the config of more folders or running instances)</li>
+            </ul>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.32</font>
+        <ul>
+            <li>Possibility of overriding the application resfresh rate is added</li>
+            <li>Small Glide3 fix (bug with Turok 2)</li>
+            <li>Minor Glide3 shader modification (SurfDemo)</li>
+            <li>Glide lib is made thread-safe at the needed (minimal) level
+               (means avoiding crashes at certain circumstances where the original
+               3Dfx driver survived beause of its architecture; a Turok 2 issue again,
+               using background threads)</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.31 -  It is a slight patch version for 2.3:</font>
+        <ul>
+            <li>Fixing Glide 3DF reader for various line ending types (Crazy Marbles)</li>
+            <li>A bug found in one of Glide state setting functions, fixed (Crazy Marbles)</li>
+            <li>Hidden/shown cursor glitch is (seems to be) fixed in windowed mode</li>
+            <li>Possibility of forcing progressive scanline order on output display is
+                now available in the setup</li>
+            <li>Fixing some DirectDraw bugs thanks to other pending developments
+                (what I don't want to release yet)</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.3  - This won't be easy because I suspended developing for a few months, but:</font>
+        <ul>
+            <li>First I refactored the code in order to any new driver component or
+                renderer could be added easily</li>
+            <li>Fixed some issues with multiple video cards/monitors. Now it works OK
+                in a multi-videocard system (not so frequent usecase but I like if
+                something is done well)</li>
+            <li>Added first version of DirectDraw component to the driver</li>
+            <li>Minor Glide shader modifications</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.2</font>
+        <ul>
+            <li>Napalm build added</li>
+            <li>Glide3 fixings: erroneous clip coord space handling</li>
+            <li>Small bug related to lfb write with active pipeline, fixed</li>
+            <li>Setup got revamped a bit</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.15</font>
+        <ul>
+            <li>Full support for texture buffers via Glide3 extension 'TEXTUREBUFFER'
+                All 16 bit texture formats are supported as rendering format except for
+                paletted ones</li>
+            <li>Bad color order for delta0 color, fixed
+                (seems I'm not in luck with RGBA order in general)</li>
+            <li>Some bugs are fixed I found through my own tests: unwritten alpha values
+                to the aux buffer, bogus Glide3 viewport handling</li>
+            <li>More optimization in LFB lock handling to avoid slowdowns on locking
+                patterns/usage like in King's Quest: Mask of Eternity
+                (Thanks for the feedback & help, Andrew!!)</li>
+            <li>A lot of code changed thanks to other developments, so I hope I have
+                not broken anything</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.14</font>
+        <ul>
+            <li>Unified Memory Architecture (UMA) along with TEXUMA Glide3 extension
+                is supported</li>
+            <li>Some Voodoo hardware properties are changed according to UMA/non-UMA
+                architecture<br>
+                (Now Extreme Assault works with Gulikoza's latest patch, but see Tips
+                for more)</li>
+            <li>Optimizations for lfb read/write region (including 3Dfx watermark)</li>
+            <li>A missing thing from PCI emulation is implemented for perfect lfb
+                access with active pixel pipeline</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.13</font>
+        <ul>
+            <li>Improved PCI emulation for LFB access: heavy lfb-lockers like Carma1
+                and Pyl SHOULD run much smoother now (see Tips for more)</li>
+            <li>Glide3 fixings: bad color order with packed RGBA, uninitialized
+                texchroma state</li>
+            <li>General glide fixings: bug in glide setstate and clip rectangle</li>
+            <li>Missing feature "fog with iterated z" is implemented along with minor
+                shader modifications</li>
+            <li>Support for splash screen and shameless plug: dgVoodoo needs the 3Dfx
+                splash dlls to get it working (3DfxSpl2.dll, 3DfxSpl3.dll, all with
+                version 1.0.0.4), however I did not include them in the core dgVoodoo
+                pack</li>
+            <li>Minor modification for DosBox</li>
+            <li>TMUnum selector combobox is fixed, I fcked it down last time</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.12</font>
+        <ul>
+            <li>More shader optimizations: most critical ones are reduced to 90% in
+                size again (So, by now, their size are 65% of the original. I hope I
+                have not messed up anything with them.)</li>
+            <li>Optional 16 bit depth buffer (see Tips for why is that)</li>
+            <li>Some fixings in Glide3 thanks to some unexpected API-driving
+                (scene demo Virhe)</li>
+            <li>Some bugs related to maintaining/switching/handling windowed/fullscreen
+                state are fixed</li>
+            <li>Voodoo2 with 1 TMU is no longer selectable in the setup; A Voodoo2
+                always have 2 TMUs and it is the default now because shaders are
+                optimal enough now to handle 2 TMUs</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.11</font>
+        <ul>
+            <li>Refactoring GPU querying to get it to work with ATI drivers
+                (ATI does not seem to handle them correctly, my code was always fooled
+                into infinite loop at a certain point)</li>
+            <li>Further shader optimizations: most critical ones are reduced to 90% in
+                size</li>
+            <li>Minor cursor-issue related to losing window focus, fixed</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.1</font>
+        <ul>
+            <li>Potential stalling rendering (even on fast GPUs) when switching screen
+                modes, fixed</li>
+            <li>Shader optimizations: most critical ones are reduced to ~80% in size</li>
+            <li>Ability to configure running Glide wrapped applications dynamically
+                (see section 'Configuring')</li>
+            <li>Different exposed capabilities according to the selected card type</li>
+            <li>More Dosbox compatibility</li>
+            <li>Bug in gammaramp handling, fixed</li>
+            <li>Bug in fogtable generating code, fixed</li>
+            <li>Bug in PCI access emulation, fixed</li>
+            <li>Forced vSync is enabled by default to avoid overkilling the GPU with
+                wild-rendering applications</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.01</font>
+        <ul>
+            <li>Undrawn polygons when updating TMU memory, fixed</li>
+            <li>Potentially bad drawing of strip-primitives in Glide3, fixed</li>
+            <li>Malfunctioning LFB lock with 32bit formats when PCI emulation is
+                enabled, fixed</li>
+            <li>Fullscreen/Windowed state was not always remembered between
+                Glide-initializings, fixed</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <font color = "#FFFFFF">2.0 - The original version</font>
+    </li>
+</ul>
+
+
+Have luck,<br>
+
+Dege
+
+
+    <hr></hr>
+
+<font>
+</body>
+
+</html>

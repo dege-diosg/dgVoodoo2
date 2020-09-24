@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+p
+{
+    max-width:1000px; 
+    word-wrap:break-word;
+    text-align:justify
+}
+
+table, th, td {
+    width:1000px; 
+    border: 1px solid #C0C0C0;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+
+li {
+    max-width:1000px;
+    text-align:justify
+}
+
+.code    {
+    width:1000px; 
+    background-color: #C96600;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+a:link {
+  color: green;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color: pink;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+</style>
+
+<head>
+
+	<meta name="google-site-verification" content="4JMbYsGNl4-uZV9FEQvq56CQDND5NHcIPtMblynaH-Q" />
+
+	<title>dgVoodoo2 Quick Guide</title>
+
+</head>
+
+<body bgcolor="#552F00">
+<font color = "#A0A060">
+
+<h2 align="center">
+===============================================================================<br>
+<font color = "#FFFFFF">dgVoodoo2</font> Quick Guide<br>
+===============================================================================<br>
+</h2>
+
+If you are new to this wrapper:
+
+<ul>
+    <li><font color="#FFFFFF"><b>Q: </b></font> What is dgVoodoo? And where is the installer?</li>
+    <li>
+        <font color="#FFFFFF"><b>A: </b></font> dgVoodoo consists of components substituting the implementations of various graphics API's like <font color="#FFFFFF">3Dfx Glide</font> and <font color="#FFFFFF">Microsoft DirectX up to version 9.</font><br>
+                                              Currently it has no installer and its usage is intended to be drop-in: just copy the graphics API dll's from dgVoodoo package next to your game/application
+                                              executable and run it. You need a graphics card supporting DX10.0 as a minimum.<br><br>
+    </li>
+</ul>
+<ul>
+    <li><font color="#FFFFFF"><b>Q: </b></font>So how can I use it exactly for my old games or other applications?</li>
+    <li>
+        <font color="#FFFFFF"><b>A: </b></font>If your game is a 3Dfx Glide one then just copy
+        <ul><br>
+            <font color="#FFFFFF">
+                <li>Glide.dll</li>
+                <li>Glide2x.dll</li>
+                <li>Glide3x.dll</li>
+            </font>
+        </ul><br>
+        from the <font color="#FFFFFF">3Dfx\x86</font> folder to the same folder where your game executable is in. If it's a 32bit DirectX application then copy
+        <ul><br>
+            <font color="#FFFFFF">
+                <li>DDraw.dll</li>
+                <li>D3DImm.dll</li>
+                <li>D3D8.dll</li>
+                <li>D3D9.dll</li>
+            </font>
+        </ul><br>
+        to the game folder from the <font color="#FFFFFF">MS\x86</font> folder. If you don't know which API your game uses, or it uses both Glide and DirectX then just copy all the dll's listed above.<br>
+        For 64bit Direct3D9 applications use
+        <ul><br>
+            <font color="#FFFFFF">
+                <li>D3D9.dll</li>
+            </font>
+        </ul><br>
+        from the <font color="#FFFFFF">MS\x64</font> folder.<br>
+        <font color="#FFFFFF">IMPORTANT: Do not copy 3Dfx or MS folders themselves but only the dll files.</font> 
+    </li>
+</ul>
+<ul>
+    <li><font color="#FFFFFF"><b>Q: </b></font>That's all?</li>
+    <li>
+        <font color="#FFFFFF"><b>A: </b></font>Yes, you can run your game. dgVoodoo should get in action with its default configuration and render your game as a D3D11 one. Altough dgVoodoo is configurable (see below),
+its default configuration is recommended for first try because this configuration is the one that provides the circumstances the games were designed for.
+    </li>
+</ul>
+<ul>
+    <li><font color="#FFFFFF"><b>Q: </b></font>OK, my game is running but the image is stretched on my screen...</li>
+    <li>
+        <font color="#FFFFFF"><b>A: </b></font>Most of the old games is designed for display output aspect ratio of 4:3 and if you have a widescreen monitor then their image will likely be distortedly stretched along
+the screen, which is not good. The recommended way to fix it is forcing 'keeping aspect ratio' in the control panel of your graphics driver (like nVidia Control panel for nVidia graphics cards).
+    </li>
+</ul>
+<ul>
+    <li><font color="#FFFFFF"><b>Q: </b></font>My graphics driver doesn't support overriding aspect ratios... Is there any other fix to this?</li>
+    <li>
+        <font color="#FFFFFF"><b>A: </b></font>Yes, there is. dgVoodoo is configurable and has various <font color="#FFFFFF">scaling modes</font>. You should try that.
+    </li>
+</ul>
+<ul>
+    <li><font color="#FFFFFF"><b>Q: </b></font>How can I configure dgVoodoo?</li>
+    <li>
+        <font color="#FFFFFF"><b>A: </b></font>dgVoodoo reads the configuration from a config file named <font color="#FFFFFF">dgVoodoo.conf</font>.
+How to create one? Well, while dgVoodoo now has a human readable text format config file, you also have the <font color="#FFFFFF">dgVoodoo Control Panel application</font> to render and modify the content of
+those config files in a convenient GUI way. So, copy <font color="#FFFFFF">dgVoodooCpl.exe</font> to your desktop or any other folder you prefer and start it. You'll see three different tabs set to the default
+configuration. If you change something and press <font color="#FFFFFF">OK</font> or <font color="#FFFFFF">Apply</font> button then the CPL writes the current configuration into a config file.
+Where it saves that?? To the folder you select on the <font color="#FFFFFF">Config folder / running instance</font> rolldown menu at the top of the CPL. By default it chooses your login-user appdata folder
+ but you can add extra ones manually, say add and choose your game folder if you want your config file be created there. For now, let's just use the global appdata folder because dgVoodoo finds the configuration
+file there if none was found in your game folder.<br>
+So, let's modify dgVoodoo's scaling mode from <font color="#FFFFFF">Unspecified</font> to <font color="#FFFFFF">Stretched, keep Aspect Ratio</font> and run your game again. You should see the game running at a
+preserved 4:3 aspect ratio without problems and it's done.<br><br>
+<img src="dgVoodooCpl1.png" />
+    </li>
+</ul>
+<p>
+<ul>
+    <li><font color="#FFFFFF"><b>Q:</b></font> But wait, at all, how do I know if my game is being rendered through dgVoodoo?</li>
+    <li><font color="#FFFFFF"><b>A:</b></font> Windows doesn't support 3Dfx Glide natively, so if you see a Glide game running then it must be running through a Glide wrapper. dgVoodoo or something else.<br>
+        For DirectX games dgVoodoo tags its own small logo to the right-bottom corner. If you see that logo then the game is surely rendered through dgVoodoo.
+    </li>
+</ul>
+<ul>
+    <li><font color="#FFFFFF"><b>Q:</b></font> Cool, now I want to improve the appearance of my game. How to change the resolution and how can I apply some antialiasing?</li>
+    <li>
+        <font color="#FFFFFF"><b>A:</b></font> You can, but first of all, you should always set the resolution or antialiasing in your game options menu if it's available there.<br>
+           If not, or the game has bad UI-scaling then you can try to force it externally through dgVoodoo. You have various options for resolution on Glide and DirectX tabs, so
+           just select there what you want. For antialiasing, dgVoodoo currently only supports MSAA. If you want some other method (or any other fancy image post-process) then you likely need <font color="#FFFFFF">ReShade</font>.
+           The other thing you should know is forcing resolution or MSAA can easily cause unwanted glitches in the appearance, or, as for some games, performance loss or simply erroneous rendering. That's why I said 'try'.<br><br>
+        <img src="dgVoodooCpl2.png" />
+        <img src="dgVoodooCpl3.png" />
+</li>
+</ul>
+<ul>
+    <li><font color="#FFFFFF"><b>Q:</b></font> So, dgVoodoo has no image post processing at all? What is more, I'm little confused about various resolutions... How dgVoodoo's image output work exactly?</li>
+    <li>
+        <font color="#FFFFFF"><b>A:</b></font> First, frames are rendered at the forced resolution instead of application resolution. After that, some optional post process effect take place like deframing, dithering and color adjustments.
+         This image can be pixel multiplied and then finally either presented to the display output, or scaled into your desktop resolution and presented to the display output. Depends on the scaling mode.<br><br>
+        <img src="dgVoodooImageOuputChain.png" />
+    </li>
+</ul>
+<ul>
+    <li><font color="#FFFFFF"><b>Q:</b></font> Should I know any extra about the configuration?</li>
+    <li>
+        <font color="#FFFFFF"><b>A:</b></font> It may seem there are plenty of options to play with, but for a quick try and basic usage you shouldn't deal most of them. Setting a scaling mode and forcing resolutions and vertical sync are enough in general.
+        If you want to get deeper knowledge about dgVoodoo then read the detailed docs in the <font color="#FFFFFF">Doc</font> folder.
+</li>
+</ul>
+
+</body>
+
+</html>
