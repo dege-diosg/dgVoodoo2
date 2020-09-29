@@ -12,3 +12,5 @@ Glide/DirectX implementation on D3D11/12
 <li>For really old games running at their original low resolution you can upscale the image with various resampling filters like bicubic and lanczos.</li>
 <li>You get a lot of configurable elements, either through the GUI CPL app or manually with a texteditor, if you know what you are doing.</li>
 </ul>
+
+Thanks for the Vogons community for providing me useful feedbacks!
