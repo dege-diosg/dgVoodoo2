@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleApp", "SampleApp.vcxproj", "{CD7EACA5-A639-4264-9F8D-5044F8489A15}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD7EACA5-A639-4264-9F8D-5044F8489A15}.Debug|x86.ActiveCfg = Debug|Win32
+		{CD7EACA5-A639-4264-9F8D-5044F8489A15}.Debug|x86.Build.0 = Debug|Win32
+		{CD7EACA5-A639-4264-9F8D-5044F8489A15}.Release|x86.ActiveCfg = Release|Win32
+		{CD7EACA5-A639-4264-9F8D-5044F8489A15}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

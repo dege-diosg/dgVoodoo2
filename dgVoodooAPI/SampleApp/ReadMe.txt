@@ -1,0 +1,1 @@
+Copy dgVoodooAPI.dll here either from folder 'Release' or 'Spec Release' to get the sample app to work.
