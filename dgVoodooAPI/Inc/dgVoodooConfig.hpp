@@ -127,7 +127,7 @@ struct ConfigGeneral
 		enumerateRefreshRates	(false),
 		captureMouse			(true),
 		centerAppWindow			(false),
-		inheritColorProfile		(false)
+		inheritColorProfile		(true)
 	{
 	}
 };
@@ -139,7 +139,7 @@ struct ConfigGeneralExt
 {
 	enum Environment
 	{
-		Env_Unspecified		=	0,
+		Env_Unspecified			=	0,
 		Env_DosBox,
 		Env_QEmu
 	};
@@ -147,31 +147,41 @@ struct ConfigGeneralExt
 
 	enum WindowedAttributes
 	{
-		WA_DefaultAttributes = 0x0,
+		WA_DefaultAttributes	= 0x0,
 
-		WA_BorderlessFlag	= 0x1,
-		WA_AlwaysOnTop		= 0x2,
-		WA_FullscreenSize	= 0x4,
+		WA_BorderlessFlag		= 0x1,
+		WA_AlwaysOnTop			= 0x2,
+		WA_FullscreenSize		= 0x4,
 
-		WA_FlagsMask		= 0x7
+		WA_FlagsMask			= 0x7
+	};
+
+
+	enum FullscreenAttributes
+	{
+		FSA_DefaultAttributes	= 0x0,
+
+		FSA_Fake				= 0x1,
+		
+		FSA_FlagsMask			= 0x1
 	};
 
 
 	enum DisplayROIPosition
 	{
-		DROI_Centered		= 0xFFFFFFFF
+		DROI_Centered			= 0xFFFFFFFF
 	};
 
 
 	enum DisplayROISize
 	{
-		DROI_Rational		= 0xFFFFFFFF
+		DROI_Rational			= 0xFFFFFFFF
 	};
 
 
 	enum Resampling
 	{
-		RS_PointSampled		=	0,
+		RS_PointSampled			=	0,
 		RS_Bilinear,
 		RS_Bicubic,
 		RS_Lanczos_2,
@@ -193,6 +203,7 @@ struct ConfigGeneralExt
 	UInt32			displayROISizeY;
 	Environment		environment;
 	UInt32			windowedAttributes;
+	UInt32			fullscreenAttributes;
 	Resampling		resampling;
 	bool			freeMouse;
 	bool			enableGDIHooking;
@@ -212,6 +223,7 @@ struct ConfigGeneralExt
 		displayROISizeY				(0),
 		environment					(Env_Unspecified),
 		windowedAttributes			(WA_DefaultAttributes),
+		fullscreenAttributes		(FSA_DefaultAttributes),
 		resampling					(RS_Bilinear),
 		freeMouse					(false),
 		enableGDIHooking			(false)
