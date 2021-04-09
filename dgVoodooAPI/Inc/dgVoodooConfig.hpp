@@ -197,6 +197,7 @@ struct ConfigGeneralExt
 	UInt32			deframerSize;
 	UInt32			imageXScaleFactor;
 	UInt32			imageYScaleFactor;
+	UInt32			cursorScaleFactor;
 	UInt32			displayROIPosX;
 	UInt32			displayROIPosY;
 	UInt32			displayROISizeX;
@@ -205,6 +206,7 @@ struct ConfigGeneralExt
 	UInt32			windowedAttributes;
 	UInt32			fullscreenAttributes;
 	Resampling		resampling;
+	UInt32			fpsLimit;
 	bool			freeMouse;
 	bool			enableGDIHooking;
 
@@ -217,6 +219,7 @@ struct ConfigGeneralExt
 		deframerSize				(1),
 		imageXScaleFactor			(1),
 		imageYScaleFactor			(1),
+		cursorScaleFactor			(0),
 		displayROIPosX				(0),
 		displayROIPosY				(0),
 		displayROISizeX				(0),
@@ -225,6 +228,7 @@ struct ConfigGeneralExt
 		windowedAttributes			(WA_DefaultAttributes),
 		fullscreenAttributes		(FSA_DefaultAttributes),
 		resampling					(RS_Bilinear),
+		fpsLimit					(0),
 		freeMouse					(false),
 		enableGDIHooking			(false)
 	{
@@ -458,6 +462,15 @@ struct ConfigDirectXExt
 		NumOfDepthBufferBitDepths
 	};
 
+
+	enum Default3DRenderFormat
+	{
+		D3DRF_ARGB8888,
+		D3DRF_ARGB2101010,
+
+		NumOfDefault3DRenderFormats
+	};
+
 	
 	enum DefEnumResolutions
 	{
@@ -496,6 +509,7 @@ struct ConfigDirectXExt
 	Dithering				dithering;
 	UInt32					ditherOrderedMatrixSizeScale;
 	DepthBufferBitDepth		depthBuffersBitDepth;
+	Default3DRenderFormat	default3DRenderFormat;
 	DefEnumResolutions		defaultEnumeratedResolutions;
 	UInt32					enumeratedResolutionBitDepths;
 	UInt32					maxVSConstRegisters;
@@ -515,6 +529,7 @@ struct ConfigDirectXExt
 		dithering						(DT_ForceAlways),
 		ditherOrderedMatrixSizeScale	(0),
 		depthBuffersBitDepth			(DBD_AppDriven),
+		default3DRenderFormat			(D3DRF_ARGB8888),
 		defaultEnumeratedResolutions	(DER_All),
 		enumeratedResolutionBitDepths	(ERBD_All),
 		maxVSConstRegisters				(256),
