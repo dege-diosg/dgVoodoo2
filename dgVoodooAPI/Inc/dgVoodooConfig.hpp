@@ -91,6 +91,7 @@ struct ConfigGeneral
 		R_MaxQHD						= 0xFFFFFFFB,
 		R_MaxQHD_ISF					= 0xFFFFFFFA,
 		R_IntegerScaled					= 0xFFFFFFF9,	// It has the integer scale value as a parameter
+		R_Desktop						= 0xFFFFFFF8,
 
 		// Optional parameters for R_Max
 		
@@ -206,7 +207,8 @@ struct ConfigGeneralExt
 	UInt32			windowedAttributes;
 	UInt32			fullscreenAttributes;
 	Resampling		resampling;
-	UInt32			fpsLimit;
+	UInt32			fpsLimitNumerator;
+	UInt32			fpsLimitDenominator;
 	bool			freeMouse;
 	bool			enableGDIHooking;
 
@@ -228,7 +230,8 @@ struct ConfigGeneralExt
 		windowedAttributes			(WA_DefaultAttributes),
 		fullscreenAttributes		(FSA_DefaultAttributes),
 		resampling					(RS_Bilinear),
-		fpsLimit					(0),
+		fpsLimitNumerator			(0),
+		fpsLimitDenominator			(0),
 		freeMouse					(false),
 		enableGDIHooking			(false)
 	{

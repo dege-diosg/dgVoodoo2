@@ -14,3 +14,7 @@ Glide/DirectX implementation on D3D11/12
 </ul>
 
 Thanks for the Vogons community for providing me useful feedbacks!
+
+*Unfortunately this is not my job, it's only a hobby project and I don't have much time for it. If you enter a bug
+and I don't reply then it's not because I don't care but I'm being short on time to investigate the issue.
+I'll try to do my best.*
