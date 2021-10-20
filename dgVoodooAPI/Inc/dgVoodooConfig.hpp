@@ -76,6 +76,7 @@ struct ConfigGeneral
 		SM_AspectRatio4_3_CRTLike,
 		SM_AspectRatio4_3_C64Like,
 		SM_CenteredAspectRatio,
+		SM_AspectRatio_CRTLike,
 
 		NumOfScalingModes
 	};
@@ -398,6 +399,7 @@ struct ConfigDirectX
 	bool			applyPhongShading;
 	bool			forceVSync;
 	bool			disableMipmapping;
+	bool			keepFilterIfPointSampled;
 	bool			fastVideoMemAccess;
 
 	ConfigDirectX ():
@@ -417,6 +419,7 @@ struct ConfigDirectX
 		applyPhongShading			(false),
 		forceVSync					(false),
 		disableMipmapping			(false),
+		keepFilterIfPointSampled	(false),
 		fastVideoMemAccess			(false)
 	{
 	}
@@ -516,11 +519,13 @@ struct ConfigDirectXExt
 	DefEnumResolutions		defaultEnumeratedResolutions;
 	UInt32					enumeratedResolutionBitDepths;
 	UInt32					maxVSConstRegisters;
+	UInt32					nPatchTesselationLevel;
 	bool					msD3DDeviceNames;
 	bool					rtTexturesForceScaleAndMSAA;
 	bool					smoothedDepthSampling;
 	bool					deferredScreenModeSwitch;
 	bool					primarySurfaceBatchedUpdate;
+	bool					enableSpecializedShaders;
 
 	ConfigDirectXExt () :
 		adapterIDType					(AIDT_Default),
@@ -536,11 +541,13 @@ struct ConfigDirectXExt
 		defaultEnumeratedResolutions	(DER_All),
 		enumeratedResolutionBitDepths	(ERBD_All),
 		maxVSConstRegisters				(256),
+		nPatchTesselationLevel			(0),
 		msD3DDeviceNames				(false),
 		rtTexturesForceScaleAndMSAA		(true),
 		smoothedDepthSampling			(true),
 		deferredScreenModeSwitch		(false),
-		primarySurfaceBatchedUpdate		(false)
+		primarySurfaceBatchedUpdate		(false),
+		enableSpecializedShaders		(true)
 	{
 		memset (extraResolutions, 0, sizeof (extraResolutions));
 	}
