@@ -351,6 +351,7 @@ struct ConfigDirectX
 		Radeon8500,
 		MatroxParhelia512,
 		GeforceFX5700Ultra,
+		Geforce9800GT,
 
 		NumOfCardTypes
 	};
