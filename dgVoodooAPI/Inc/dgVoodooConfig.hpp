@@ -85,17 +85,20 @@ struct ConfigGeneral
 	enum	Resolution
 	{
 		R_Unforced						= 0,
-		R_Max							= 0xFFFFFFFF,	// It can have a parameter, the aspect ratio
+
+		// All dynamic resolutions can have an integer scale value parameter (0 - 255)
+
+		R_Max							= 0xFFFFFFFF,	// It can have the aspect ratio as parameter
 		R_Max_ISF						= 0xFFFFFFFE,
 		R_MaxFHD						= 0xFFFFFFFD,
 		R_MaxFHD_ISF					= 0xFFFFFFFC,
 		R_MaxQHD						= 0xFFFFFFFB,
 		R_MaxQHD_ISF					= 0xFFFFFFFA,
-		R_IntegerScaled					= 0xFFFFFFF9,	// It has the integer scale value as a parameter
+		R_IntegerScaled					= 0xFFFFFFF9,	// It always has the integer scale value parameter
 		R_Desktop						= 0xFFFFFFF8,
 
 		// Optional parameters for R_Max
-		
+
 		PR_Max_4_3						= 0x100,
 		PR_Max_16_9						= 0x101
 	};
@@ -164,7 +167,7 @@ struct ConfigGeneralExt
 		FSA_DefaultAttributes	= 0x0,
 
 		FSA_Fake				= 0x1,
-		
+
 		FSA_FlagsMask			= 0x1
 	};
 
@@ -326,7 +329,7 @@ struct ConfigGlideExt
 
 		NumOfDitheringBehaviors
 	};
-	
+
 	DitheringEffect		ditheringEffect;
 	Dithering			dithering;
 	UInt32				ditherOrderedMatrixSizeScale;
@@ -351,6 +354,7 @@ struct ConfigDirectX
 		Radeon8500,
 		MatroxParhelia512,
 		GeforceFX5700Ultra,
+		Geforce9800GT,
 
 		NumOfCardTypes
 	};
@@ -458,7 +462,7 @@ struct ConfigDirectXExt
 		NumOfDitheringBehaviors
 	};
 
-	
+
 	enum DepthBufferBitDepth
 	{
 		DBD_AppDriven	=	0,
@@ -477,7 +481,7 @@ struct ConfigDirectXExt
 		NumOfDefault3DRenderFormats
 	};
 
-	
+
 	enum DefEnumResolutions
 	{
 		DER_None		=	0,
@@ -487,7 +491,7 @@ struct ConfigDirectXExt
 		NumOfDefEnumResolutions
 	};
 
-	
+
 	enum EnumResBitDepths
 	{
 		ERBD_8			=	0x1,
@@ -504,7 +508,7 @@ struct ConfigDirectXExt
 		UInt32	height;
 		UInt32	refRate;
 	};
-	
+
 	AdapterIDType			adapterIDType;
 	UInt32					vendorID;
 	UInt32					deviceID;
