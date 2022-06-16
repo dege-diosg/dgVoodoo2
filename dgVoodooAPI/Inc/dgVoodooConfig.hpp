@@ -194,27 +194,38 @@ struct ConfigGeneralExt
 	};
 
 
-	UInt32			desktopResWidth;
-	UInt32			desktopResHeight;
-	UInt32			desktopRefRateNumerator;
-	UInt32			desktopRefRateDenominator;
-	UInt32			desktopBitDepth;
-	UInt32			deframerSize;
-	UInt32			imageXScaleFactor;
-	UInt32			imageYScaleFactor;
-	UInt32			cursorScaleFactor;
-	UInt32			displayROIPosX;
-	UInt32			displayROIPosY;
-	UInt32			displayROISizeX;
-	UInt32			displayROISizeY;
-	Environment		environment;
-	UInt32			windowedAttributes;
-	UInt32			fullscreenAttributes;
-	Resampling		resampling;
-	UInt32			fpsLimitNumerator;
-	UInt32			fpsLimitDenominator;
-	bool			freeMouse;
-	bool			enableGDIHooking;
+	enum PresentationModel
+	{
+		PM_Automatic			=	0,
+		PM_Discard,
+		PM_Sequential,
+		PM_FlipDiscard,
+		PM_FlipSequential
+	};
+
+
+	UInt32				desktopResWidth;
+	UInt32				desktopResHeight;
+	UInt32				desktopRefRateNumerator;
+	UInt32				desktopRefRateDenominator;
+	UInt32				desktopBitDepth;
+	UInt32				deframerSize;
+	UInt32				imageXScaleFactor;
+	UInt32				imageYScaleFactor;
+	UInt32				cursorScaleFactor;
+	UInt32				displayROIPosX;
+	UInt32				displayROIPosY;
+	UInt32				displayROISizeX;
+	UInt32				displayROISizeY;
+	Environment			environment;
+	UInt32				windowedAttributes;
+	UInt32				fullscreenAttributes;
+	Resampling			resampling;
+	PresentationModel	presentationModel;
+	UInt32				fpsLimitNumerator;
+	UInt32				fpsLimitDenominator;
+	bool				freeMouse;
+	bool				enableGDIHooking;
 
 	ConfigGeneralExt ():
 		desktopResWidth				(0),
@@ -234,6 +245,7 @@ struct ConfigGeneralExt
 		windowedAttributes			(WA_DefaultAttributes),
 		fullscreenAttributes		(FSA_DefaultAttributes),
 		resampling					(RS_Bilinear),
+		presentationModel			(PM_Automatic),
 		fpsLimitNumerator			(0),
 		fpsLimitDenominator			(0),
 		freeMouse					(false),
@@ -524,12 +536,12 @@ struct ConfigDirectXExt
 	UInt32					enumeratedResolutionBitDepths;
 	UInt32					maxVSConstRegisters;
 	UInt32					nPatchTesselationLevel;
+	UInt32					renderingOutputEnablingMask;
 	bool					msD3DDeviceNames;
 	bool					rtTexturesForceScaleAndMSAA;
 	bool					smoothedDepthSampling;
 	bool					deferredScreenModeSwitch;
 	bool					primarySurfaceBatchedUpdate;
-	bool					enableSpecializedShaders;
 
 	ConfigDirectXExt () :
 		adapterIDType					(AIDT_Default),
@@ -546,12 +558,12 @@ struct ConfigDirectXExt
 		enumeratedResolutionBitDepths	(ERBD_All),
 		maxVSConstRegisters				(256),
 		nPatchTesselationLevel			(0),
+		renderingOutputEnablingMask		(0xFFFFFFFF),
 		msD3DDeviceNames				(false),
 		rtTexturesForceScaleAndMSAA		(true),
 		smoothedDepthSampling			(true),
 		deferredScreenModeSwitch		(false),
-		primarySurfaceBatchedUpdate		(false),
-		enableSpecializedShaders		(true)
+		primarySurfaceBatchedUpdate		(false)
 	{
 		memset (extraResolutions, 0, sizeof (extraResolutions));
 	}

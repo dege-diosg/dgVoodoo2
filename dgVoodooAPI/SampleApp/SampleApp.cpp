@@ -81,8 +81,8 @@ static	void	ConfigFromCustomINIStream (IMainFactory* pFactory)
 			status = (currentPos >= 0 && currentPos < (Int32) strlen (pStreamData)) ? StatusOk : StatusError;
 			return status;
 		}
-		
-		
+
+
 		virtual	Status	Read (UInt32 count, void* buffer, UInt32* readBytes = NULL) const
 		{
 			if (status == IAPIDataStream::StatusOk) {
@@ -98,8 +98,8 @@ static	void	ConfigFromCustomINIStream (IMainFactory* pFactory)
 			}
 			return status;
 		}
-		
-		
+
+
 		virtual	Status	Write (UInt32 /*count*/, void* /*buffer*/, UInt32* /*writtenBytes*/) const
 		{
 			// no need to implement
@@ -124,7 +124,7 @@ static	void	ConfigFromCustomINIStream (IMainFactory* pFactory)
 
 	IConfig* pConfig = pFactory->GetIConfig ();
 	if (pConfig != NULL) {
-	
+
 		// --- Test for a right configuration
 		{
 			const char* pStreamData =	"version = 0x255\n"\
@@ -169,15 +169,15 @@ static	void	ConfigFromCustomINIStream (IMainFactory* pFactory)
 					// no need to implement
 					return StatusError;
 				}
-		
-		
+
+
 				virtual	Status	Read (UInt32 count, void* buffer, UInt32* readBytes = NULL) const
 				{
 					// no need to implement
 					return StatusError;
 				}
-		
-		
+
+
 				virtual	Status	Write (UInt32 count, void* buffer, UInt32* writtenBytes) const
 				{
 					// Ok, it's a lame solution here, serves only demonstrating purposes
@@ -231,7 +231,7 @@ static	void	INIPropertySetRead (IMainFactory* pFactory)
 		if (pParser->Parse ("TestFiles\\INIPropertySet.ini", IIniParser::LowerCase)) {
 
 			printf ("INIPropertySet.ini is successfully parsed. Dumping its content:\n\n");
-			
+
 			// Dump the property set to the console window
 			for (UInt32 i = 0; i < pParser->GetNumberOfSections (); i++) {
 				const char* pSectionName = pParser->GetSectionName (i);
@@ -286,7 +286,7 @@ static	void	DumpGraphicsSystemInformation (IMainFactory* pFactory)
 
 				pCPLDDI->GetAdapterName (i, adapterName);
 				printf ("\nAdapter %i: %ls", i, adapterName);
-					
+
 				UInt32 numOutputs = pCPLDDI->GetNumberOfOutputs (i);
 				printf ("\n     Number of outputs: %d\n", numOutputs);
 				for (UInt32 j = 0; j < numOutputs; j++) {
@@ -322,7 +322,7 @@ int main()
 		ConfigReadWrite (pFactory);
 		ConfigFromCustomINIStream (pFactory);
 		INIPropertySetRead (pFactory);
-		DumpGraphicsSystemInformation (pFactory);	
+		DumpGraphicsSystemInformation (pFactory);
 
 		dgVoodoo_API_Exit ();
 	}

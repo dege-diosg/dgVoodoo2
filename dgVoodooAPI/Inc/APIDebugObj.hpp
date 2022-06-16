@@ -57,8 +57,8 @@ struct APIDebugObj
 	{
 		return infoLevel;
 	}
-	
-	
+
+
 	WarningLevel	inline			GetWarningLevel () const
 	{
 		return warningLevel;
@@ -70,7 +70,7 @@ struct APIDebugObj
 		return errorLevel;
 	}
 
-	
+
 	UInt32			inline			GetMaxTraceLevel () const
 	{
 		return maxTraceLevel;
@@ -88,7 +88,7 @@ struct APIDebugObj
 		pOutputStream = _pOutputStream;
 	}
 
-	
+
 	APIDebugObj (InfoLevel _infoLevel, WarningLevel _warningLevel, ErrorLevel _errorLevel,
 				 const char* _pPrefixString, UInt32 _maxTraceLevel, IAPIDataStream* _pOutputStream = NULL):
 		infoLevel		(_infoLevel),

@@ -21,7 +21,7 @@ namespace dgVoodoo {
 class IAPIDataStream
 {
 public:
-	
+
 	enum	Origin
 	{
 		OSet		=	0,
