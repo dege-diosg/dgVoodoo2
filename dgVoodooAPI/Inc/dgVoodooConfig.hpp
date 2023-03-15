@@ -204,6 +204,16 @@ struct ConfigGeneralExt
 	};
 
 
+	enum SystemHookFlags
+	{
+		SHF_None				=	0x0,
+		SHF_GDI					=	0x1,
+		SHF_Cursor				=	0x2,
+
+		SHF_All					=	0x3
+	};
+
+
 	UInt32				desktopResWidth;
 	UInt32				desktopResHeight;
 	UInt32				desktopRefRateNumerator;
@@ -224,8 +234,8 @@ struct ConfigGeneralExt
 	PresentationModel	presentationModel;
 	UInt32				fpsLimitNumerator;
 	UInt32				fpsLimitDenominator;
+	UInt32				systemHookFlags;
 	bool				freeMouse;
-	bool				enableGDIHooking;
 
 	ConfigGeneralExt ():
 		desktopResWidth				(0),
@@ -248,8 +258,8 @@ struct ConfigGeneralExt
 		presentationModel			(PM_Automatic),
 		fpsLimitNumerator			(0),
 		fpsLimitDenominator			(0),
-		freeMouse					(false),
-		enableGDIHooking			(false)
+		systemHookFlags				(SHF_None),
+		freeMouse					(false)
 	{
 	}
 };
@@ -411,7 +421,7 @@ struct ConfigDirectX
 	bool			appControlledScreenState;
 	bool			disableAltEnter;
 	bool			watermark;
-	bool			linearBltStretch;
+	bool			bilinear2DOperations;
 	bool			applyPhongShading;
 	bool			forceVSync;
 	bool			disableMipmapping;
@@ -431,7 +441,7 @@ struct ConfigDirectX
 		appControlledScreenState	(true),
 		disableAltEnter				(true),
 		watermark					(true),
-		linearBltStretch			(false),
+		bilinear2DOperations		(false),
 		applyPhongShading			(false),
 		forceVSync					(false),
 		disableMipmapping			(false),

@@ -1,7 +1,7 @@
-// SampleApp.cpp : Defines the entry point for the console application.
+// APILibrary.cpp : Defines the entry point for the console application.
 //
 
-#include "IMainFactory.hpp"
+#include ".\APIDll\IMainFactory.hpp"
 #include "IIniParser.hpp"
 #include "IAPIDataStream.hpp"
 #include "APIDebugObj.hpp"
