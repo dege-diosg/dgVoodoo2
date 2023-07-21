@@ -9,11 +9,11 @@
 
 // --- Includes ----------------------------------------------------------------
 
-#include "Public\IIniParser.hpp"
-#include "Public\APIDebugObj.hpp"
+#include "..\Inc\IIniParser.hpp"
+#include "..\Inc\APIDebugObj.hpp"
 
-#include "Public\Addon\AddonDefs.hpp"
-#include "Public\Addon\IAddonMainCallback.hpp"
+#include "..\Inc\Addon\AddonDefs.hpp"
+#include "..\Inc\Addon\IAddonMainCallback.hpp"
 
 #include "Presenter.hpp"
 #include "Texturer.hpp"

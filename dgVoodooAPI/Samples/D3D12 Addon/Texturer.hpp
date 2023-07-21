@@ -9,9 +9,9 @@
 
 // --- Includes ----------------------------------------------------------------
 
-#include "Public\Addon\ID3DObserver.hpp"
-#include "Public\Addon\ID3DDeviceObserver.hpp"
-#include "Public\Addon\ID3DResourceObserver.hpp"
+#include "..\Inc\Addon\ID3DObserver.hpp"
+#include "..\Inc\Addon\ID3DDeviceObserver.hpp"
+#include "..\Inc\Addon\ID3DResourceObserver.hpp"
 
 // --- Namespaces --------------------------------------------------------------
 

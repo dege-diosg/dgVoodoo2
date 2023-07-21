@@ -9,7 +9,7 @@
 
 // --- Includes ----------------------------------------------------------------
 
-#include "Public\Addon\ID3D12RootObserver.hpp"
+#include "..\Inc\Addon\ID3D12RootObserver.hpp"
 #include "ImageLoader.hpp"
 #include <unordered_map>
 

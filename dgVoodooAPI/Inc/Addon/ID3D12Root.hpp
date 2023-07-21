@@ -242,11 +242,13 @@ public:
 	virtual ID3D12Fence*					AGetFence () const = 0;
 
 	virtual	bool							HIUpdateSubBuffer (ID3D12Resource* pMADBuffer, ID3D12HeapPageAllocator* pAllocator,
-															   UInt32 begin, UInt32 end, const void* pSrcData, bool setToUnmappedState = false) = 0;
+															   UInt32 begin, UInt32 end, const void* pSrcData,
+															   bool setToUnmappedState = false, bool forceAsync = false) = 0;
 
 	virtual bool							HIUpdateSubTexture (ID3D12Resource* pMADTexture, UInt32 dstSubResIdx,
 																ID3D12HeapPageAllocator* pAllocator, const D3D12_BOX& dstBox,
-															    const void* pSrcData, UInt32 srcPitch, UInt32 srcDepth) = 0;
+															    const void* pSrcData, UInt32 srcPitch, UInt32 srcDepth,
+																bool forceAsync = false) = 0;
 };
 
 // --- Helpers -----------------------------------------------------------------

@@ -204,6 +204,16 @@ struct ConfigGeneralExt
 	};
 
 
+	enum ColorSpace
+	{
+		CS_AppDriven			=	0,
+		CS_ARGB8888_SDR,
+		CS_ARGB2101010_SDR,
+		CS_ARGB2101010_SDR_WCG,
+		CS_ARGB16161616_HDR
+	};
+
+
 	enum SystemHookFlags
 	{
 		SHF_None				=	0x0,
@@ -232,6 +242,7 @@ struct ConfigGeneralExt
 	UInt32				fullscreenAttributes;
 	Resampling			resampling;
 	PresentationModel	presentationModel;
+	ColorSpace			colorSpace;
 	UInt32				fpsLimitNumerator;
 	UInt32				fpsLimitDenominator;
 	UInt32				systemHookFlags;
@@ -256,6 +267,7 @@ struct ConfigGeneralExt
 		fullscreenAttributes		(FSA_DefaultAttributes),
 		resampling					(RS_Bilinear),
 		presentationModel			(PM_Automatic),
+		colorSpace					(CS_AppDriven),
 		fpsLimitNumerator			(0),
 		fpsLimitDenominator			(0),
 		systemHookFlags				(SHF_None),
@@ -352,14 +364,27 @@ struct ConfigGlideExt
 		NumOfDitheringBehaviors
 	};
 
-	DitheringEffect		ditheringEffect;
-	Dithering			dithering;
-	UInt32				ditherOrderedMatrixSizeScale;
+	enum Default3DRenderFormat
+	{
+		D3DRF_Auto = 0,
+
+		D3DRF_ARGB8888,
+		D3DRF_ARGB2101010,
+		D3DRF_ARGB16161616,
+
+		NumOfDefault3DRenderFormats
+	};
+
+	DitheringEffect			ditheringEffect;
+	Dithering				dithering;
+	UInt32					ditherOrderedMatrixSizeScale;
+	Default3DRenderFormat	default3DRenderFormat;			// Currently unimplemented
 
 	ConfigGlideExt ():
 		ditheringEffect					(DE_Pure32Bit),
 		dithering						(DT_ForceAlways),
-		ditherOrderedMatrixSizeScale	(0)
+		ditherOrderedMatrixSizeScale	(0),
+		default3DRenderFormat			(D3DRF_Auto)
 	{
 	}
 };
@@ -466,7 +491,8 @@ struct ConfigDirectXExt
 
 	enum DitheringEffect
 	{
-		DE_Pure32Bit	=	0,
+		DE_HighQuality	=	0,
+		DE_Pure32Bit	=	DE_HighQuality,		// For compatibility only
 		DE_Ordered2x2,
 		DE_Ordered4x4,
 
@@ -497,8 +523,11 @@ struct ConfigDirectXExt
 
 	enum Default3DRenderFormat
 	{
+		D3DRF_Auto		=	0,
+
 		D3DRF_ARGB8888,
 		D3DRF_ARGB2101010,
+		D3DRF_ARGB16161616,
 
 		NumOfDefault3DRenderFormats
 	};
@@ -552,6 +581,7 @@ struct ConfigDirectXExt
 	bool					smoothedDepthSampling;
 	bool					deferredScreenModeSwitch;
 	bool					primarySurfaceBatchedUpdate;
+	bool					suppressAMDBlacklist;
 
 	ConfigDirectXExt () :
 		adapterIDType					(AIDT_Default),
@@ -559,11 +589,11 @@ struct ConfigDirectXExt
 		deviceID						(0xFFFFFFFF),
 		subSysID						(0xFFFFFFFF),
 		revisionID						(0xFFFFFFFF),
-		ditheringEffect					(DE_Pure32Bit),
+		ditheringEffect					(DE_HighQuality),
 		dithering						(DT_ForceAlways),
 		ditherOrderedMatrixSizeScale	(0),
 		depthBuffersBitDepth			(DBD_AppDriven),
-		default3DRenderFormat			(D3DRF_ARGB8888),
+		default3DRenderFormat			(D3DRF_Auto),
 		defaultEnumeratedResolutions	(DER_All),
 		enumeratedResolutionBitDepths	(ERBD_All),
 		maxVSConstRegisters				(256),
@@ -573,7 +603,8 @@ struct ConfigDirectXExt
 		rtTexturesForceScaleAndMSAA		(true),
 		smoothedDepthSampling			(true),
 		deferredScreenModeSwitch		(false),
-		primarySurfaceBatchedUpdate		(false)
+		primarySurfaceBatchedUpdate		(false),
+		suppressAMDBlacklist			(false)
 	{
 		memset (extraResolutions, 0, sizeof (extraResolutions));
 	}
