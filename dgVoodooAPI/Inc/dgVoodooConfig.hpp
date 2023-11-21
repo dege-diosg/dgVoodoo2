@@ -406,7 +406,6 @@ struct ConfigDirectX
 		NumOfCardTypes
 	};
 
-
 	enum TexFilterType
 	{
 		TF_AppDriven		=	0,
@@ -414,6 +413,7 @@ struct ConfigDirectX
 		TF_ForceBilinear	=	0x200,
 		TF_ForceLinearMip	=	0x300,
 		TF_ForceTrilinear	=	0x400,
+		TF_ForcePointMip	=	0x500,
 		TF_ForceAniso1x		=	1,
 		TF_ForceAniso2x		=	2,
 		TF_ForceAniso3x		=	3,
@@ -434,6 +434,14 @@ struct ConfigDirectX
 		TF_AnisoMask		=	0xFF
 	};
 
+	enum TexMipmapping
+	{
+		TMM_AppDriven		=	0,
+		TMM_Disabled,
+		TMM_AutoGenPoint,
+		TMM_AutoGenBilinear
+	};
+
 	CardType		cardType;
 	UInt64			videoMemSize;
 	UInt32			resWidth;
@@ -442,6 +450,7 @@ struct ConfigDirectX
 	UInt32			refRateNumerator;
 	UInt32			refRateDenominator;
 	UInt32			texFilterType;
+	UInt32			texMipmapping;
 	bool			disabledAndPassThru;
 	bool			appControlledScreenState;
 	bool			disableAltEnter;
@@ -449,7 +458,6 @@ struct ConfigDirectX
 	bool			bilinear2DOperations;
 	bool			applyPhongShading;
 	bool			forceVSync;
-	bool			disableMipmapping;
 	bool			keepFilterIfPointSampled;
 	bool			fastVideoMemAccess;
 
@@ -462,6 +470,7 @@ struct ConfigDirectX
 		refRateNumerator			(0),
 		refRateDenominator			(0),
 		texFilterType				(TF_AppDriven),
+		texMipmapping				(TMM_AppDriven),
 		disabledAndPassThru			(false),
 		appControlledScreenState	(true),
 		disableAltEnter				(true),
@@ -469,7 +478,6 @@ struct ConfigDirectX
 		bilinear2DOperations		(false),
 		applyPhongShading			(false),
 		forceVSync					(false),
-		disableMipmapping			(false),
 		keepFilterIfPointSampled	(false),
 		fastVideoMemAccess			(false)
 	{
