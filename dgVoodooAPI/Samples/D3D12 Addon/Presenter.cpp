@@ -202,6 +202,15 @@ bool	Presenter::ILoadShaders ()
 }
 
 
+void	Presenter::IReleaseShaders ()
+{
+	pVSQuad->Release ();
+	pPSGlass->Release ();
+	pVSQuad = NULL;
+	pPSGlass = NULL;
+}
+
+
 bool	Presenter::ICreateRootSignature (AdapterData& adapter)
 {
 	// SRV array descriptor - just for demonstration purposes: SRV range[3..4] in space 1
@@ -431,6 +440,8 @@ void	Presenter::D3D12RootReleased (const ID3D12Root* _pD3D12Root)
 
 	delete[] glassImage.pBitmap;
 	memset (&glassImage, 0, sizeof (glassImage));
+	
+	IReleaseShaders ();
 
 	pD3D12Root = NULL;
 }
@@ -500,6 +511,13 @@ void	Presenter::D3D12EndUsingAdapter (UInt32 adapterID)
 	EraseAdapter (adapterID);
 
 	main.pAddonMainCB->IssueInfo (&main, "D3D12 adapter (%d) and its objects are released on root object (%p).\n", adapterID, pD3D12Root);
+}
+
+
+bool	Presenter::D3D12CreateSwapchainHook (UInt32 /*adapterID*/, IDXGIFactory1* /*pDxgiFactory*/, IUnknown* /*pCommandQueue*/, const DXGI_SWAP_CHAIN_DESC& /*desc*/, IDXGISwapChain** /*ppSwapChain*/)
+{
+	// We do not want to create a swapchain, leave it to dgVoodoo
+	return false;
 }
 
 

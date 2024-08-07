@@ -14,6 +14,13 @@
 
 #include "ID3D12Root.hpp"
 
+// --- Predeclarations ---------------------------------------------------------
+
+struct DXGI_SWAP_CHAIN_DESC;
+struct IDXGIFactory1;
+struct IDXGIOutput;
+struct IDXGISwapChain;
+
 namespace dgVoodoo {
 
 // --- ID3D12RootObserver ------------------------------------------------------
@@ -67,6 +74,8 @@ public:
 
 	virtual bool	D3D12BeginUsingAdapter (UInt32 adapterID) = 0;
 	virtual void	D3D12EndUsingAdapter (UInt32 adapterID) = 0;
+
+	virtual bool	D3D12CreateSwapchainHook (UInt32 adapterID, IDXGIFactory1* pDxgiFactory, IUnknown* pCommandQueue, const DXGI_SWAP_CHAIN_DESC& desc, IDXGISwapChain** ppSwapChain) = 0;
 
 	virtual void	D3D12SwapchainCreated (UInt32 adapterID, ID3D12Swapchain* pSwapchain, const ID3D12Root::SwapchainData& swapchainData) = 0;
 	virtual void	D3D12SwapchainChanged (UInt32 adapterID, ID3D12Swapchain* pSwapchain, const ID3D12Root::SwapchainData& swapchainData) = 0;

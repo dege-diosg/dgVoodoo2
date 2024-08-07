@@ -9,7 +9,7 @@
 
 // --- Includes ----------------------------------------------------------------
 
-#include "..\Inc\Addon\ID3D12RootObserver.hpp"
+#include "Addon\ID3D12RootObserver.hpp"
 #include "ImageLoader.hpp"
 #include <unordered_map>
 
@@ -101,6 +101,7 @@ protected:
 	bool			IParsePresenterINISection ();
 
 	bool			ILoadShaders ();
+	void			IReleaseShaders ();
 	bool			ICreateRootSignature (AdapterData& adapter);
 	void			IReleaseRootSignature (AdapterData& adapter);
 	bool			ICreateGlassTexture (AdapterData& adapter);
@@ -119,6 +120,8 @@ protected:
 
 	virtual bool	D3D12BeginUsingAdapter (UInt32 adapterID) override;
 	virtual void	D3D12EndUsingAdapter (UInt32 adapterID) override;
+
+	virtual bool	D3D12CreateSwapchainHook (UInt32 adapterID, IDXGIFactory1* pDxgiFactory, IUnknown* pCommandQueue, const DXGI_SWAP_CHAIN_DESC& desc, IDXGISwapChain** ppSwapChain)  override;
 
 	virtual void	D3D12SwapchainCreated (UInt32 adapterID, ID3D12Swapchain* pSwapchain, const ID3D12Root::SwapchainData& swapchainData) override;
 	virtual void	D3D12SwapchainChanged (UInt32 adapterID, ID3D12Swapchain* pSwapchain, const ID3D12Root::SwapchainData& swapchainData) override;

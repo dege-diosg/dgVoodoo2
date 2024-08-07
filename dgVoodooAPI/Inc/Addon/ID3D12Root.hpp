@@ -194,9 +194,10 @@ public:
 	virtual void	Release () = 0;
 };
 
-// --- ID3D12Buffer ------------------------------------------------------------
 
-class ID3D12Buffer
+// --- ID3D12LockableResource --------------------------------------------------
+
+class ID3D12LockableResource
 {
 public:
 	enum LockType
@@ -206,6 +207,19 @@ public:
 		LT_Discard						// Discard - No wait for GPU (dynamic buffer)
 	};
 
+	virtual bool						HasAddressChanged () const = 0;
+	virtual void						ClearAddressChangedFlag () = 0;
+	virtual bool						GetAndClearAddressChangedBit (UInt32 idx) = 0;
+
+	virtual void						Release () = 0;
+};
+
+
+// --- ID3D12Buffer ------------------------------------------------------------
+
+class ID3D12Buffer : public ID3D12LockableResource
+{
+public:
 	struct LockData
 	{
 		UInt64				gpuAddress;
@@ -213,15 +227,32 @@ public:
 		ID3D12Resource*		pBuffer;
 	};
 
-	virtual bool						HasAddressChanged () const = 0;
-	virtual void						ClearAddressChangedFlag () = 0;
-	virtual bool						GetAndClearAddressChangedBit (UInt32 idx) = 0;
-
+public:
 	virtual LockData					Lock (LockType lockType, ID3D12Fence* pFence = NULL, UInt64 fenceValue = 0) = 0;
 	virtual void						Unlock () = 0;
-
-	virtual void						Release () = 0;
 };
+
+
+// --- ID3D12DynamicTexture ----------------------------------------------------
+
+class ID3D12DynamicTexture : public ID3D12LockableResource
+{
+public:
+	struct LockData
+	{
+		UInt64				gpuAddress;
+		void*				ptr;
+		ID3D12Resource*		pBuffer;
+		UInt32				rowPitch;
+		UInt32				depthPitch;
+	};
+
+public:
+	virtual LockData					Lock (LockType lockType, UInt32 faceIdx, UInt32 mipmapLevelIdx,
+											  ID3D12Fence* pFence = NULL, UInt64 fenceValue = 0) = 0;
+	virtual void						Unlock () = 0;
+};
+
 
 // --- ID3D12GraphicsCommandListAuto -------------------------------------------
 
@@ -250,6 +281,7 @@ public:
 															    const void* pSrcData, UInt32 srcPitch, UInt32 srcDepth,
 																bool forceAsync = false) = 0;
 };
+
 
 // --- Helpers -----------------------------------------------------------------
 

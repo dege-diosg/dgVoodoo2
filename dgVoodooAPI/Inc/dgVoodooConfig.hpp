@@ -590,6 +590,7 @@ struct ConfigDirectXExt
 	bool					deferredScreenModeSwitch;
 	bool					primarySurfaceBatchedUpdate;
 	bool					suppressAMDBlacklist;
+	bool					d3d12BoundsChecking;
 
 	ConfigDirectXExt () :
 		adapterIDType					(AIDT_Default),
@@ -612,7 +613,8 @@ struct ConfigDirectXExt
 		smoothedDepthSampling			(true),
 		deferredScreenModeSwitch		(false),
 		primarySurfaceBatchedUpdate		(false),
-		suppressAMDBlacklist			(false)
+		suppressAMDBlacklist			(false),
+		d3d12BoundsChecking				(false)
 	{
 		memset (extraResolutions, 0, sizeof (extraResolutions));
 	}

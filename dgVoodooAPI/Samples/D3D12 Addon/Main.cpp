@@ -12,8 +12,8 @@
 #include <tchar.h>
 #include <Windows.h>
 
-#include "..\Inc\Addon\AddonDefs.hpp"
-#include "..\Inc\Addon\IAddonMainCallback.hpp"
+#include "Addon\AddonDefs.hpp"
+#include "Addon\IAddonMainCallback.hpp"
 
 // --- Defines -----------------------------------------------------------------
 
