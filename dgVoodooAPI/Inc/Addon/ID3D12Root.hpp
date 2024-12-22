@@ -268,7 +268,7 @@ public:
 
 	virtual bool							AFlush (bool waitForCompletion = false) = 0;
 	virtual void							AFlushLock () = 0;
-	virtual void							AFlushUnlock (bool forceFlush = false) = 0;
+	virtual bool							AFlushUnlock (bool forceFlush = false) = 0;
 	virtual	UINT64							AGetLastFlushFenceValue () const = 0;
 	virtual ID3D12Fence*					AGetFence () const = 0;
 
