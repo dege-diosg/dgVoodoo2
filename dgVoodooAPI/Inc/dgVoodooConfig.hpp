@@ -116,6 +116,7 @@ struct ConfigGeneral
 	bool				enumerateRefreshRates;
 	bool				captureMouse;
 	bool				centerAppWindow;
+	bool				disableScreenSaver;
 	bool				inheritColorProfile;
 
 	ConfigGeneral ():
@@ -132,6 +133,7 @@ struct ConfigGeneral
 		enumerateRefreshRates	(false),
 		captureMouse			(true),
 		centerAppWindow			(false),
+		disableScreenSaver		(false),
 		inheritColorProfile		(true)
 	{
 	}
@@ -591,6 +593,7 @@ struct ConfigDirectXExt
 	bool					primarySurfaceBatchedUpdate;
 	bool					suppressAMDBlacklist;
 	bool					d3d12BoundsChecking;
+	bool					alternativeScaling;
 
 	ConfigDirectXExt () :
 		adapterIDType					(AIDT_Default),
@@ -614,7 +617,8 @@ struct ConfigDirectXExt
 		deferredScreenModeSwitch		(false),
 		primarySurfaceBatchedUpdate		(false),
 		suppressAMDBlacklist			(false),
-		d3d12BoundsChecking				(false)
+		d3d12BoundsChecking				(false),
+		alternativeScaling				(false)
 	{
 		memset (extraResolutions, 0, sizeof (extraResolutions));
 	}
