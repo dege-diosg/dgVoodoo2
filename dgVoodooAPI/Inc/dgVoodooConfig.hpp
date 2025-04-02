@@ -462,6 +462,7 @@ struct ConfigDirectX
 	bool			forceVSync;
 	bool			keepFilterIfPointSampled;
 	bool			fastVideoMemAccess;
+	bool			disableD3DTnLDevice;
 
 	ConfigDirectX ():
 		cardType					(Virtual3D),
@@ -481,7 +482,8 @@ struct ConfigDirectX
 		applyPhongShading			(false),
 		forceVSync					(false),
 		keepFilterIfPointSampled	(false),
-		fastVideoMemAccess			(false)
+		fastVideoMemAccess			(false),
+		disableD3DTnLDevice			(false)
 	{
 	}
 };
