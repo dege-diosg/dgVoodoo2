@@ -17,3 +17,15 @@ Glide/DirectX implementation on D3D11/12
 </ul>
 
 Thanks for the Vogons community for providing me useful feedbacks!
+
+<hr>
+
+You have an old 32bit game or application relying on an old graphics API and you might want to port/recompile it to a modern 64 bit platform but you don't want to
+mess with porting the rendering code to a modern graphics API?  
+<ul>
+<li>You can easily do the graphics part of the porting with 64 bit dgVoodoo graphics API dlls that
+you can freely ship with your application.</li>
+<li>In the first step you can port it to plain x64 to see if it works and then compile it to ARM64 or ARM64EC if you use
+components that have no native ARM64 versions.</li>
+See the documentation in dgVoodoo API 2.86.3 (or newer) package.
+</ul>

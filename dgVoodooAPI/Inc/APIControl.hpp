@@ -22,6 +22,8 @@
 
 namespace dgVoodoo {
 
+struct Config;
+
 // --- APIControl --------------------------------------------------------------
 
 // --- Objects
@@ -33,6 +35,8 @@ struct APIControl
 		bool	enableGlideVisualDebug;
 		bool	enableDDrawVisualDebug;
 		bool	enableD3DVisualDebug;
+
+		bool	enableDebuggerBreak;
 	};
 
 	Debug			debug;
@@ -42,10 +46,14 @@ struct APIControl
 
 // --- Functions
 
+typedef	void		(IMPORT* DGAPISetConfigType) (Config* pdgVoodooConfig);
+
 typedef	APIControl*	(IMPORT *DGAPIGetAPIControlPtrType) ();
 typedef	bool		(IMPORT *DGAPIReleaseAPIControlPtrType) (APIControl* pCtrl);
 
 extern "C" {
+
+	void			DGAPISetConfig (Config* pdgVoodooConfig);
 
 	APIControl*		DGAPIGetAPIControlPtr ();
 	bool			DGAPIReleaseAPIControlPtr (APIControl* pCtrl);
