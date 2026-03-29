@@ -245,6 +245,7 @@ struct ConfigGeneralExt
 	Resampling			resampling;
 	PresentationModel	presentationModel;
 	ColorSpace			colorSpace;
+	UInt32				waterMarkDisplayDuration;
 	UInt32				fpsLimitNumerator;
 	UInt32				fpsLimitDenominator;
 	UInt32				systemHookFlags;
@@ -270,6 +271,7 @@ struct ConfigGeneralExt
 		resampling					(RS_Bilinear),
 		presentationModel			(PM_Automatic),
 		colorSpace					(CS_AppDriven),
+		waterMarkDisplayDuration	(0),
 		fpsLimitNumerator			(0),
 		fpsLimitDenominator			(0),
 		systemHookFlags				(SHF_None),
