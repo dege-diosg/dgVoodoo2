@@ -29,3 +29,7 @@ you can freely ship with your application.</li>
 components that have no native ARM64 versions.</li>
 See the documentation in dgVoodoo API 2.86.3 (or newer) package.
 </ul>
+
+<hr>
+
+An important extra note: do not report that dgVoodoo does not work on lunix/wine/proton/neutron/pozitron/whatever. I know about it, I got this reported a million times and I don't care, it's not a target anyway. I'm going to automatically close issues about this and things related to this.
